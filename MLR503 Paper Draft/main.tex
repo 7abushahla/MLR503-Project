@@ -13,7 +13,29 @@
 \usepackage{blindtext}
 \usepackage{hyperref}
 \usepackage{multirow}
+\usepackage{float}
+\usepackage{stfloats}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{pdflscape} % For landscape pages
+% \usepackage{caption}
+\raggedbottom
 
+
+% --- Begin Arabic Support Additions ---
+\usepackage[english]{babel}
+\usepackage{arabtex}
+\usepackage{utf8}
+\setcode{utf8}     
+% --- End Arabic Support Additions ---
+
+\usepackage [autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
+
+% Define a custom command for formatting Arabic text
+\newcommand{\artext}[1]{%
+  {\fontsize{8pt}{11pt}\selectfont \raisebox{0pt}[0pt][0pt]{\RL{#1}}}%
+}
 
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
@@ -25,6 +47,9 @@
   \hfill\mbox{}\par
   \mbox{}\hfill\begin{@IEEEauthorhalign}
 }
+
+
+
 
 
 \begin{document}
