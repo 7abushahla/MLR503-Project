@@ -20,17 +20,23 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{altwaijry2021arabic}
-N.~Altwaijry and I.~Al-Turaiki, ``Arabic handwriting recognition system using convolutional neural network,'' \emph{Neural Computing and Applications}, vol.~33, no.~7, pp. 2249--2261, 2021.
+\bibitem{saeed2024muharaf}
+M.~Saeed, A.~Chan, A.~Mijar, J.~Moukarzel, G.~Habchi, C.~Younes, A.~Elias, C.-W. Wong, and A.~Khater, ``Muharaf: Manuscripts of handwritten arabic dataset for cursive text recognition,'' \emph{arXiv preprint arXiv:2406.09630}, 2024.
+
+\bibitem{ayuba2013}
+M.~A. Ayuba, ``Information and communication technologies in preserving arabic and islamic manuscripts,'' \emph{Global Journal Al-Thaqafah}, vol.~3, no.~2, pp. 7--14, 2013.
+
+\bibitem{el1990arabic}
+S.~S. El-Dabi, R.~Ramsis, and A.~Kamel, ``Arabic character recognition system: A statistical approach for recognizing cursive typewritten text,'' \emph{Pattern recognition}, vol.~23, no.~5, pp. 485--495, 1990.
+
+\bibitem{mutawa2024machine}
+A.~Mutawa, M.~Y. Allaho, and M.~Al-Hajeri, ``Machine learning approach for arabic handwritten recognition,'' \emph{Applied Sciences}, vol.~14, no.~19, p. 9020, 2024.
 
 \bibitem{parvez2013offline}
 M.~T. Parvez and S.~A. Mahmoud, ``Offline arabic handwritten text recognition: a survey,'' \emph{ACM Computing Surveys (CSUR)}, vol.~45, no.~2, pp. 1--35, 2013.
 
-\bibitem{mosbah2024adocrnet}
-L.~Mosbah, I.~Moalla, T.~M. Hamdani, B.~Neji, T.~Beyrouthy, and A.~M. Alimi, ``Adocrnet: A deep learning ocr for arabic documents recognition,'' \emph{IEEE Access}, 2024.
-
-\bibitem{alrobah2022arabic}
-N.~Alrobah and S.~Albahli, ``Arabic handwritten recognition using deep learning: A survey,'' \emph{Arabian Journal for Science and Engineering}, vol.~47, no.~8, pp. 9943--9963, 2022.
+\bibitem{faizullah2023survey}
+S.~Faizullah, M.~S. Ayub, S.~Hussain, and M.~A. Khan, ``A survey of ocr in arabic language: applications, techniques, and challenges,'' \emph{Applied Sciences}, vol.~13, no.~7, p. 4584, 2023.
 
 \bibitem{li2023trocr}
 M.~Li, T.~Lv, J.~Chen, L.~Cui, Y.~Lu, D.~Florencio, C.~Zhang, Z.~Li, and F.~Wei, ``Trocr: Transformer-based optical character recognition with pre-trained models,'' in \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, vol.~37, no.~11, 2023, pp. 13\,094--13\,102.
@@ -40,9 +46,6 @@ T.~Wang, Y.~Zhu, L.~Jin, C.~Luo, X.~Chen, Y.~Wu, Q.~Wang, and M.~Cai, ``Decouple
 
 \bibitem{bhunia2021metahtr}
 A.~K. Bhunia, S.~Ghose, A.~Kumar, P.~N. Chowdhury, A.~Sain, and Y.-Z. Song, ``Metahtr: Towards writer-adaptive handwritten text recognition,'' in \emph{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}, 2021, pp. 15\,830--15\,839.
-
-\bibitem{saeed2024muharaf}
-M.~Saeed, A.~Chan, A.~Mijar, J.~Moukarzel, G.~Habchi, C.~Younes, A.~Elias, C.-W. Wong, and A.~Khater, ``Muharaf: Manuscripts of handwritten arabic dataset for cursive text recognition,'' \emph{arXiv preprint arXiv:2406.09630}, 2024.
 
 \bibitem{lecun1998gradient}
 Y.~LeCun, L.~Bottou, Y.~Bengio, and P.~Haffner, ``Gradient-based learning applied to document recognition,'' \emph{Proceedings of the IEEE}, vol.~86, no.~11, pp. 2278--2324, 1998.
