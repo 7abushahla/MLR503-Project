@@ -38,11 +38,23 @@ M.~T. Parvez and S.~A. Mahmoud, ``Offline arabic handwritten text recognition: a
 \bibitem{faizullah2023survey}
 S.~Faizullah, M.~S. Ayub, S.~Hussain, and M.~A. Khan, ``A survey of ocr in arabic language: applications, techniques, and challenges,'' \emph{Applied Sciences}, vol.~13, no.~7, p. 4584, 2023.
 
-\bibitem{li2023trocr}
-M.~Li, T.~Lv, J.~Chen, L.~Cui, Y.~Lu, D.~Florencio, C.~Zhang, Z.~Li, and F.~Wei, ``Trocr: Transformer-based optical character recognition with pre-trained models,'' in \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, vol.~37, no.~11, 2023, pp. 13\,094--13\,102.
+\bibitem{mosbah2024adocrnet}
+L.~Mosbah, I.~Moalla, T.~M. Hamdani, B.~Neji, T.~Beyrouthy, and A.~M. Alimi, ``Adocrnet: A deep learning ocr for arabic documents recognition,'' \emph{IEEE Access}, 2024.
+
+\bibitem{alrobah2022arabic}
+N.~Alrobah and S.~Albahli, ``Arabic handwritten recognition using deep learning: A survey,'' \emph{Arabian Journal for Science and Engineering}, vol.~47, no.~8, pp. 9943--9963, 2022.
+
+\bibitem{altwaijry2021arabic}
+N.~Altwaijry and I.~Al-Turaiki, ``Arabic handwriting recognition system using convolutional neural network,'' \emph{Neural Computing and Applications}, vol.~33, no.~7, pp. 2249--2261, 2021.
+
+\bibitem{ahmad2020deep}
+R.~Ahmad, S.~Naz, M.~Z. Afzal, S.~F. Rashid, M.~Liwicki, and A.~Dengel, ``A deep learning based arabic script recognition system: benchmark on khat.'' \emph{Int. Arab J. Inf. Technol.}, vol.~17, no.~3, pp. 299--305, 2020.
 
 \bibitem{wang2020decoupled}
 T.~Wang, Y.~Zhu, L.~Jin, C.~Luo, X.~Chen, Y.~Wu, Q.~Wang, and M.~Cai, ``Decoupled attention network for text recognition,'' in \emph{Proceedings of the AAAI conference on artificial intelligence}, vol.~34, no.~07, 2020, pp. 12\,216--12\,224.
+
+\bibitem{li2023trocr}
+M.~Li, T.~Lv, J.~Chen, L.~Cui, Y.~Lu, D.~Florencio, C.~Zhang, Z.~Li, and F.~Wei, ``Trocr: Transformer-based optical character recognition with pre-trained models,'' in \emph{Proceedings of the AAAI Conference on Artificial Intelligence}, vol.~37, no.~11, 2023, pp. 13\,094--13\,102.
 
 \bibitem{bhunia2021metahtr}
 A.~K. Bhunia, S.~Ghose, A.~Kumar, P.~N. Chowdhury, A.~Sain, and Y.-Z. Song, ``Metahtr: Towards writer-adaptive handwritten text recognition,'' in \emph{Proceedings of the IEEE/CVF conference on computer vision and pattern recognition}, 2021, pp. 15\,830--15\,839.
