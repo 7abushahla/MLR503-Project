@@ -1,14 +1,14 @@
 # Fdb version 4
-["bibtex main"] 1733245846 "main.aux" "main.bbl" "main" 1733245849 0
+["bibtex main"] 1733245846 "main.aux" "main.bbl" "main" 1733245983 0
   "./references.bib" 1733243306 8162 8cd24127a5a6731daa0bf9dfd2ed0a2c ""
   "/usr/local/texlive/2023/texmf-dist/bibtex/bst/ieeetran/IEEEtran.bst" 1440712899 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "main.aux" 1733245848 4124 41f9adde959f39ad9625aa4f30b3bb26 "pdflatex"
+  "main.aux" 1733245982 4124 41f9adde959f39ad9625aa4f30b3bb26 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1733245846 "/Users/hamza/Documents/GitHub/MLR503-Project/MLR503 Paper Draft/main.tex" "main.pdf" "main" 1733245849 0
-  "/Users/hamza/Documents/GitHub/MLR503-Project/MLR503 Paper Draft/main.tex" 1733245841 20354 1861adf2feda8f564302c8827658aab3 ""
+["pdflatex"] 1733245979 "/Users/hamza/Documents/GitHub/MLR503-Project/MLR503 Paper Draft/main.tex" "main.pdf" "main" 1733245983 0
+  "/Users/hamza/Documents/GitHub/MLR503-Project/MLR503 Paper Draft/main.tex" 1733245977 20416 f8903da377eee990c3b88961b74386e8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/times/ptmb7t.tfm" 1136768653 2172 fd0c924230362ff848a33632ed45dc23 ""
@@ -29,6 +29,7 @@
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm10.tfm" 1246382020 908 2921f8a10601f252058503cc6570e581 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm5.tfm" 1246382020 940 75ac932a52f80982a9f8ea75d03a34cf ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/amsfonts/symbols/msbm7.tfm" 1246382020 940 228d6584342e91276bf566bcf9716b83 ""
+  "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/arabtex/xnsh14.tfm" 1136768653 1364 01a9f94a4c9bbd739f7f0e9abbd477a5 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmex10.tfm" 1136768653 992 662f679a0b3d2d53c1b94050fdaa3f50 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmmi10.tfm" 1136768653 1528 abec98dbc43e172678c11b3b9031252a ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmmi6.tfm" 1136768653 1512 f21f83efb36853c0b70002322c1ab3ad ""
@@ -40,6 +41,7 @@
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmsy6.tfm" 1136768653 1116 933a60c408fc0a863a92debe84b2d294 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/public/cm/cmsy8.tfm" 1136768653 1120 8b7d695260f3cff42e636090a8002094 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb" 1248133631 32716 08e384dc442464e7285e891af9f45947 ""
+  "/usr/local/texlive/2023/texmf-dist/fonts/type1/public/arabtex/xnsh14.pfb" 1136849748 46148 6ea8dd335475df8dcc10e1bcdbd1c873 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb" 1136849748 44729 811d6c62865936705a31c797a1d5dada ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb" 1136849748 44656 0cbca70e0534538582128f6b54593cca ""
   "/usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb" 1136849748 46026 6dab18b61c907687b520c72847215a68 ""
@@ -79,6 +81,7 @@
   "/usr/local/texlive/2023/texmf-dist/tex/latex/amsmath/amsmath.sty" 1654720880 88393 1adf6fa3f245270d06e3d4f8910f7fc5 ""
   "/usr/local/texlive/2023/texmf-dist/tex/latex/amsmath/amsopn.sty" 1654720880 4474 f04cd1cc7bd76eb033e6fb12eb6a0d77 ""
   "/usr/local/texlive/2023/texmf-dist/tex/latex/amsmath/amstext.sty" 1654720880 2444 70065bddd85997dc1fd0bb7ae634e5fa ""
+  "/usr/local/texlive/2023/texmf-dist/tex/latex/arabtex/Uxnsh.fd" 1137109893 2052 21e32eae5698dd41fc8de88a4d40b57b ""
   "/usr/local/texlive/2023/texmf-dist/tex/latex/arabtex/abidir.sty" 1137109893 9488 34ac5ec2801db92f0678a7b5eebe41d0 ""
   "/usr/local/texlive/2023/texmf-dist/tex/latex/arabtex/abjad.sty" 1137109893 2236 1a41202f65d15958d3cde75565619add ""
   "/usr/local/texlive/2023/texmf-dist/tex/latex/arabtex/aboxes.sty" 1137109893 16385 277c14d6ca495d19e591232ed5389ea4 ""
@@ -162,10 +165,10 @@
   "/usr/local/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1705418234 7883460 0c83c4acbf2cdc93f4a4b9174ade881b ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
   "IEEEtran.cls" 1733243306 281954 b88c6e55f52c43ee2f91d39505f11e6c ""
-  "main.aux" 1733245848 4124 41f9adde959f39ad9625aa4f30b3bb26 "pdflatex"
+  "main.aux" 1733245982 4124 41f9adde959f39ad9625aa4f30b3bb26 "pdflatex"
   "main.bbl" 1733245846 5186 f640ed89ddfc32498577ccba5c59d08f "bibtex main"
-  "main.out" 1733245848 2574 bb1725ab21b683901365867af64caf97 "pdflatex"
-  "main.tex" 1733245841 20354 1861adf2feda8f564302c8827658aab3 ""
+  "main.out" 1733245982 2574 bb1725ab21b683901365867af64caf97 "pdflatex"
+  "main.tex" 1733245977 20416 f8903da377eee990c3b88961b74386e8 ""
   (generated)
   "main.aux"
   "main.log"

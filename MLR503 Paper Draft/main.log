@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.1.16)  3 DEC 2024 21:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023) (preloaded format=pdflatex 2024.1.16)  3 DEC 2024 21:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -623,6 +623,13 @@ Underfull \hbox (badness 1968) in paragraph at lines 103--105
 
 LaTeX Warning: Citation `source2' on page 1 undefined on input line 109.
 
+LaTeX Font Info:    Trying to load font information for U+xnsh on input line 111.
+(/usr/local/texlive/2023/texmf-dist/tex/latex/arabtex/Uxnsh.fd
+File: uxnsh.fd  1999/10/19 v3.10 ArabTeX Naskh extd. font definitions
+)
+LaTeX Font Info:    Font shape `U/xnsh/m/n' will be
+(Font)              scaled to size 11.52002pt on input line 111.
+
 
 LaTeX Warning: Citation `source5' on page 1 undefined on input line 113.
 
@@ -778,6 +785,7 @@ epstopdf-sys.cfg    2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
     umsa.fd    2013/01/14 v3.01 AMS symbols A
     umsb.fd    2013/01/14 v3.01 AMS symbols B
   ts1ptm.fd    2001/06/04 font definitions for TS1/ptm.
+   Uxnsh.fd
     main.bbl
  ***********
 
@@ -792,18 +800,18 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 ### semi simple group (level 1) entered at line 55 (\begingroup)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 16409 strings out of 476025
- 255081 string characters out of 5790017
- 1876388 words of memory out of 5000000
- 36508 multiletter control sequences out of 15000+600000
- 555329 words of font info for 120 fonts, out of 8000000 for 9000
+ 16432 strings out of 476025
+ 255788 string characters out of 5790017
+ 1877388 words of memory out of 5000000
+ 36526 multiletter control sequences out of 15000+600000
+ 555646 words of font info for 121 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  75i,11n,76p,1282b,1965s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (5 pages, 96453 bytes).
+</usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/urw/times/utmri8a.pfb></usr/local/texlive/2023/texmf-dist/fonts/type1/public/arabtex/xnsh14.pfb>
+Output written on main.pdf (5 pages, 101080 bytes).
 PDF statistics:
- 173 PDF objects out of 1000 (max. 8388607)
- 154 compressed objects within 2 object streams
+ 178 PDF objects out of 1000 (max. 8388607)
+ 157 compressed objects within 2 object streams
  40 named destinations out of 1000 (max. 500000)
  137 words of extra memory for PDF output out of 10000 (max. 10000000)
 
