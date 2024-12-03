@@ -29,7 +29,7 @@
 
 \begin{document}
 
-\title{From Script to Digital: Arabic Handwriting Recognition for Historical Manuscripts}
+\title{From Script to Digital: A Deep Learning Approach to Arabic Handwriting Recognition}
 
 \author{
     \IEEEauthorblockN{Hamza Ahmed Abushahla\textsuperscript{*}}
@@ -69,45 +69,38 @@
 \maketitle
 
 \begin{abstract}
-Handwritten Text Recognition (HTR) for historical Arabic manuscripts is essential for preserving cultural heritage and enabling digital accessibility. However, the cursive nature of Arabic script, its positional letter shapes, and diacritical marks pose unique challenges. Existing HTR systems often fail to generalize to the complexities of historical texts, further hindered by a scarcity of suitable datasets.
-In this study, we leverage the Muharaf dataset and develop a deep learning-based approach to address these challenges. By employing a convolutional neural network (CNN) architecture, we create an effective HTR system tailored to historical Arabic manuscripts. This work advances the field of Arabic HTR and supports broader efforts to digitize and preserve historical manuscripts for future research.
-
-
-
-
-
+Handwritten Text Recognition (HTR) for Arabic script is crucial for enabling digital accessibility and automating the conversion of handwritten documents into searchable digital formats. The cursive nature of Arabic script, with its positional letter shapes and diacritical marks, presents significant challenges that require specialized recognition systems. These challenges are compounded by the variability in handwriting styles and the limitations of techniques developed for other languages.
+In this study, we leverage the KHATT dataset to develop an end-to-end deep learning-based HTR system. Our approach effectively addresses the complexities of Arabic cursive handwriting using a segmentation-based model. This work demonstrates the potential of deep learning in advancing Arabic HTR, enabling the digitization of both contemporary and historical texts and supporting broader applications in cultural preservation and digital workflows.
 \end{abstract}
 
 % \vspace{-10pt}
 
 \begin{IEEEkeywords}
-Arabic Handwriting Recognition, Historical Manuscripts, Muharaf Dataset, Arabic Handwriting,  Optical Character Recognition, Deep Learning
+Arabic Handwriting Recognition, KHATT Dataset, Arabic Handwriting, Optical Character Recognition, Deep Learning, Cursive Text Recognition
 \end{IEEEkeywords}
 
 \section{Introduction}
 
-The Arabic language, with its rich history and cultural significance, has played a pivotal role in preserving the intellectual heritage of the Arab world. Historical Arabic manuscripts encompass a wide range of subjects, including literature, science, religion, and personal correspondence. These manuscripts serve as a window into the past, offering invaluable insights into the evolution of thought and culture \cite{ayuba2013}. Their preservation and digitization are essential for safeguarding this heritage and ensuring accessibility for scholars, historians, and the general public.
+The Arabic language is the official language of 24 sovereign countries and is spoken by over 400 million people worldwide. It is also one of the six official languages of the United Nations, reflecting its international importance \cite{source2}. Beyond its widespread use, Arabic holds profound cultural, literary, and religious significance, serving as a cornerstone of the heritage of Arab and Muslim communities globally. This extensive reach emphasizes the importance of developing accurate Arabic Handwritten Text Recognition (HTR) systems, which have diverse applications in educational, governmental, and cultural preservation contexts. For instance, the ability to accurately convert both historical and contemporary handwritten Arabic documents into digital text is vital for the digitization of archives, streamlining administrative processes, and supporting large-scale data analysis efforts.
 
+Recognizing Arabic cursive handwriting presents unique challenges due to the inherent complexities of the script. Arabic is written from right to left, with letters assuming different shapes based on their positional context within words. Diacritical marks, known as "harakat," and other special symbols such as the 'Hamza' and 'Maada' further complicate recognition, as many letters share identical base shapes but are distinguished by one or more dots placed above or below the character \cite{altwaijry2021arabic}. These characteristics, combined with the variability in individual handwriting styles, make the task of Arabic handwriting recognition particularly demanding \cite{parvez2013offline}. Furthermore, because of these unique challenges, techniques developed for recognizing handwriting in other languages—such as Latin-based scripts—cannot be directly applied to Arabic, necessitating tailored approaches and specialized models.
 
-Highly accurate Handwritten Text Recognition (HTR) systems for Arabic manuscripts are essential for converting these historical texts into searchable and analyzable formats. Such systems would enable the creation of digital archives, support linguistic and historical research, and facilitate knowledge dissemination. However, existing HTR systems, particularly those designed for modern or non-historical Arabic texts, fail to effectively process these documents \cite{alrobah2022arabic}. Traditional systems that rely on handcrafted features often struggle to generalize across the diverse styles, varying quality, and structural complexities of historical manuscripts \cite{parvez2013offline}. Moreover, features extracted manually are highly sensitive to noise and degradation commonly found in older documents, limiting their scalability and accuracy. 
+Traditional Arabic HTR systems have predominantly relied on shallow learning techniques. These methods typically involve handcrafted feature extraction processes that are sensitive to noise and degradation, limiting their effectiveness and scalability \cite{parvez2013offline}. Furthermore, most existing systems adopt a segmentation-based approach, requiring the segmentation of words into individual characters before recognition. This segmentation process is particularly challenging for Arabic due to the cursive connections between letters and the presence of similar character shapes, making it difficult to accurately isolate each character \cite{source5, source6}. In contrast, segmentation-free models (holistic approaches) recognize words as whole-word images without any segmentation processes, which can be more effective for specific applications with limited vocabularies \cite{source7, source8}.
 
-Handwriting varies significantly between individuals, particularly in cursive scripts like Arabic. The size and style of handwritten characters often differ due to the writer's personal techniques and preferences, creating additional challenges for recognition systems. Hence, Handwriting recognition is considered one of the most challenging tasks in computer vision \cite{altwaijry2021arabic}.
+Deep learning has revolutionized HTR, offering superior performance and generalizability compared to traditional approaches. Convolutional Neural Networks (CNNs) have emerged as the foundation of modern HTR systems due to their ability to extract complex spatial features, making them particularly effective for cursive scripts like Arabic \cite{mosbah2024adocrnet, alrobah2022arabic}. Combined with Bidirectional Long Short-Term Memory (BiLSTM) networks and Connectionist Temporal Classification (CTC), deep learning models can effectively handle sequence modeling for continuous text recognition \cite{li2023trocr}. More recently, Transformers and attention-based models have introduced new paradigms \cite{wang2020decoupled, li2023trocr, bhunia2021metahtr}, enabling HTR systems to focus on specific regions of an image and capture long-range dependencies. These advances have significantly improved accuracy and generalizability, particularly for complex and diverse handwriting styles. Additionally, the integration of language models during post-processing has further improved prediction accuracy by leveraging contextual language information \cite{bhunia2021metahtr}.
 
-Over the past decade, significant advancements in deep learning have revolutionized the field of HTR. Convolutional Neural Networks (CNNs) have become the cornerstone of HTR systems, excelling in feature extraction and image recognition tasks \cite{mosbah2024adocrnet, alrobah2022arabic, altwaijry2021arabic}. Their ability to capture spatial hierarchies makes them particularly effective for processing cursive scripts like Arabic. More recently, Transformers and attention-based models have introduced new paradigms \cite{wang2020decoupled, li2023trocr, bhunia2021metahtr }, enabling HTR systems to focus on specific regions of an image and capture long-range dependencies. These advances have significantly improved accuracy and generalizability, particularly for complex and diverse handwriting styles.
+To advance the development of robust HTR systems for Arabic, leveraging comprehensive and diverse datasets is paramount. While historical datasets like Muharaf \cite{saeed2024muharaf} have provided valuable resources for analyzing historical manuscripts, there is a growing need to shift focus towards more general and contemporary datasets to ensure broader applicability. In this study, we adopt the KHATT dataset \cite{khatt2020dataset}, a benchmark dataset renowned in the field of Arabic handwriting recognition. The KHATT dataset encompasses a wide range of modern handwritten Arabic text, covering diverse writing styles from different regions and writers. This shift from historical to contemporary data allows for the development of more generalized HTR systems capable of handling both historical and modern handwriting styles.
 
-Despite these advancements, Arabic HTR presents unique challenges. The Arabic script is cursive, with letters that change shape based on their position within a word. The presence of diacritical marks, known as "harakat," adds another layer of complexity. Furthermore, the scarcity of large, publicly available datasets for historical Arabic handwriting exacerbates the difficulty of the task \cite{saeed2024muharaf}.
-
-
-The Muharaf dataset \cite{saeed2024muharaf}, published in June 2024, addresses some of these challenges by providing a comprehensive resource for Arabic handwriting analysis. This dataset consists of 1,644 scanned pages and 36,311 lines of handwritten Arabic text, covering a period from the early 19th to the early 21st century. Fully annotated and transcribed at the text-line level, it encompasses diverse writing styles and offers an invaluable foundation for developing and evaluating HTR systems tailored to historical Arabic manuscripts.
-
-In this study, we leverage the Muharaf dataset to develop a convolutional neural network (CNN)-based deep learning model for handwritten text recognition in historical Arabic manuscripts. We focus on preprocessing, training, and evaluating a robust HTR system while addressing the unique challenges posed by the dataset. In general, our contributions can be summarized as follows:
+This study presents a segmentation-based HTR model utilizing advanced deep learning techniques to achieve high accuracy in Arabic handwriting recognition. The proposed system employs ResNet as a backbone for feature extraction, followed by a BiLSTM-CTC architecture for sequence modeling. To further enhance performance, a language model is incorporated during the post-processing phase, improving prediction accuracy by leveraging contextual information. 
 
 \begin{itemize}
-    \item We develop a CNN-based deep learning approach for Arabic HTR, specifically tailored to historical manuscripts.
-    \item We design a preprocessing pipeline to handle the challenges of historical handwriting, including variability in quality and styles.
-    \item We evaluate the performance of our model using the Muharaf dataset and provide insights into its strengths and limitations.
-    \item We analyze dataset-specific challenges and discuss future directions for improving HTR systems for Arabic manuscripts.
+    \item We develop a CNN-based deep learning approach combined with BiLSTM-CTC and a language model to accurately recognize Arabic handwritten text.
+    \item We design a robust preprocessing pipeline to address handwriting variability and optimize input data for recognition.
+    \item We rigorously evaluate our system using the KHATT dataset, demonstrating its effectiveness across diverse handwriting styles.
 \end{itemize}
+
+The remainder of this paper is organized as follows: Section 2 provides the background, including an overview of HTR, the unique characteristics of Arabic handwriting, and essential terminology. Section 3 reviews related work, covering traditional methods, advancements in deep learning, and the importance of datasets in Arabic handwriting recognition. Section 4 outlines our methodology, detailing the proposed solution, algorithms, and techniques used to address the problem. Section 5 presents the results and evaluation, discussing the findings and their implications. Finally, Section 6 concludes the study by summarizing key contributions, addressing limitations, and proposing directions for future research.
+
 
 \section{Background}
 
