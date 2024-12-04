@@ -339,14 +339,39 @@ Arabic handwriting exhibits a significant degree of variability, making it one o
   \label{fig:mr}
 \end{figure}
 
+Additionally, Arabic handwriting is not restricted to a single standardized form. Variants of Modern Standard Arabic (MSA) often appear in handwritten texts, including informal adaptations and regional orthographic practices. Although HTR systems are not tasked with interpreting dialects or regional meanings, the visual form of these handwritten variants—such as alternative spellings or elongated structures—introduces challenges in character recognition. This vast variability complicates segmentation and encoding, where traditional OCR systems fail due to their reliance on rigid, rule-based approaches. Unlike scripts with default spaces between characters, Arabic’s cursive nature creates continuous connections between letters, making segmentation into discrete units a formidable task. \\
 
 
-\clearpage
+///might end up removing, lets seee.
 
 
+%%%%%%%%%NEED TO UN-GPT THIS%%%%%%%%%%
+
+\subsubsection{Right-to-Left Directionality and Structural Bias}
 
 
+The right-to-left (RTL) directionality of Arabic script introduces significant challenges for handwritten text recognition (HTR) systems, which are predominantly designed for left-to-right (LTR) languages. This fundamental difference impacts multiple aspects of HTR, including preprocessing, feature extraction, and sequence modeling, and requires specific adaptations to ensure that the system can effectively process Arabic text.
 
+In Arabic, text begins at the top-right and flows toward the left, a structure that conflicts with the assumptions underlying most LTR-oriented algorithms. This discrepancy is particularly evident in preprocessing tasks, such as baseline detection and text alignment. For instance, the baseline of Arabic text is often affected by dynamic interactions between ascenders (e.g., "\artext{ط}") and descenders (e.g., "\artext{ي}"), which are more pronounced in cursive handwritten styles. Traditional baseline detection methods, which assume a uniform LTR structure, often misalign Arabic text, leading to errors in segmentation and recognition.
+
+
+Convolutional Neural Networks (CNNs), a cornerstone of modern HTR systems, exacerbate these challenges with their sliding window mechanism. CNNs typically extract features by moving a kernel across the image from left to right. While effective for LTR scripts, this process introduces a structural bias when applied to Arabic text. Since Arabic handwriting flows from right to left, the CNN begins processing at the visual end of the word and progresses toward its beginning, disrupting the natural progression of contextual features. This mismatch results in suboptimal recognition of connected letters and diacritics, which are essential for accurate Arabic text recognition.
+
+A commonly used workaround is to flip the input image horizontally, making the Arabic text visually appear as if it flows from left to right. While this enables LTR-designed systems to process the text more effectively, it introduces new challenges. Horizontal flipping can distort spatial relationships, particularly for diacritics or overlapping characters, and fails to address the inherent biases in the model architecture. For example, flipped input does not resolve issues in sequence alignment, where the reversed order may still impact downstream tasks like decoding.
+
+In sequence modeling architectures, such as Recurrent Neural Networks (RNNs) and Transformers, RTL directionality creates additional challenges. RNNs, which process sequences step-by-step, are particularly sensitive to input order. A model trained on LTR text encounters Arabic text in reverse, handling the end of the sequence first and losing the natural semantic flow. Transformers, although more flexible due to their self-attention mechanisms, face similar problems. Positional encodings in pretrained Transformer models are often designed for LTR scripts, and their application to RTL text misaligns attention distributions, reducing the model’s ability to accurately weight the importance of characters at the beginning of words.
+
+Addressing these biases requires architectural and algorithmic adaptations. For CNNs, designing RTL-compatible sliding window mechanisms that traverse the image in the correct direction aligns feature extraction with the natural flow of Arabic text. Similarly, retraining RNNs and Transformers with RTL-specific positional encodings or bidirectional capabilities helps to preserve the contextual integrity of Arabic handwriting. While preprocessing techniques such as horizontal flipping offer a temporary fix, they are insufficient for addressing the deeper structural challenges posed by RTL scripts. Robust adaptations at the model level are essential for achieving accurate and reliable recognition of Arabic handwritten text.
+
+
+\subsubsection{Dataset Limitations}
+
+The scarcity of high-quality, diverse datasets is one of the most significant obstacles to advancing Arabic HTR systems. While several datasets have been developed, such as KHATT and IFN/ENIT, they often fail to encompass the full spectrum of Arabic handwriting styles and scenarios. These datasets are typically limited in terms of writer demographics, regional variations, and text complexity. Moreover, many existing corpora focus exclusively on Modern Standard Arabic (MSA), excluding handwritten texts that exhibit informal, decorative, or application-specific features.
+
+Another pressing issue is the size and annotation quality of available datasets. Compared to resources for widely studied languages like English, Arabic handwriting datasets are smaller in scale and less diverse. Annotated data for complex elements, such as diacritics, overlapping characters, or noisy inputs, remain particularly sparse. These deficiencies hinder the ability of HTR systems to generalize effectively across different writing styles and real-world applications. The creation of larger, more representative datasets with comprehensive annotations is essential for addressing these limitations and supporting the training of advanced HTR models.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
