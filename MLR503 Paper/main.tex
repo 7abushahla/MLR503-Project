@@ -240,15 +240,15 @@ Dots are integral components of Arabic letters, playing a crucial role in distin
   \caption{Arabic Characters That Have One, Two, or Three Dots}
   \label{table:characters_with_dots}
   \centering
-  \begin{tabular}{|c|p{6cm}|}
+  \begin{tabular}{|c|>{\centering\arraybackslash}p{6cm}|}
   \hline
   \textbf{No. of Dots} & \textbf{Letters} \\
   \hline
-  \rule{0pt}{10pt} One dot   & \rule{0pt}{10pt} \artext{ب ج خ ذ ز ض ظ غ ف ن} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
+  \rule{0pt}{10pt} One dot   & \artext{ب ج خ ذ ز ض ظ غ ف ن} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
   \hline
-  \rule{0pt}{10pt} Two dots  & \rule{0pt}{10pt} \artext{ت ق ي} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
+  \rule{0pt}{10pt} Two dots  & \artext{ت ق ي} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
   \hline
-  \rule{0pt}{10pt} Three dots & \rule{0pt}{10pt} \artext{ث ش} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
+  \rule{0pt}{10pt} Three dots & \artext{ث ش} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
   \hline
   \end{tabular}
 \end{table}
@@ -257,14 +257,59 @@ Dots are integral components of Arabic letters, playing a crucial role in distin
 
 The hamzah "\artext{ء}" is a unique character in the Arabic script that can function as a primary character or as a subcomponent integrated within other primary characters. For example, the hamzah appears as a standalone character in words like "\artext{سماء}" (samā’, meaning sky) and "\artext{هواء}" (hawā’, meaning air). Additionally, the hamzah can be incorporated within other letters, such as "\artext{ك}", "\artext{أ}", "\artext{ئ}", "\artext{ؤ}", and "\artext{إ}". Moreover, the placement of the hamzah, whether above, below, or within a letter, determines its pronunciation and role within different word contexts.
 
+\subsubsection{ Diacritics: Tashkeel and Tanween}
+
+"\artext{التشكيل}" (tashkeel), also known as "\artext{حركات}" (harakat), and "\artext{التنوين}" (tanween) are diacritical marks used in Arabic to indicate pronunciation and grammatical nuances.  Tashkeel consists of five symbols that modify the meaning and pronunciation of words. For example, the words "\artext{عِلْم}" (ilm, meaning knowledge) and "\artext{عَلَم}" (alam, meaning flag) share the same base characters but differ in their Tashkeel, altering their meanings significantly. Although Tashkeel is not extensively used in everyday Arabic writing, since context often clarifies meaning, it is essential for novice readers and in educational materials. Tashkeel can change the semantic interpretation of words, making its accurate recognition (if present) vital for preserving textual integrity.
+
+
 \subsubsection{Cursive Nature and Baseline Structure}
 Arabic is inherently a cursive script in both its printed and handwritten forms, meaning that letters within words are connected by a horizontal line known as the baseline. Portions of characters that extend below the baseline are referred to as "descenders," while those that extend above are termed "ascenders." Figure~\ref{fig:ab} depicts the baseline with ascenders and descenders, highlighting how these elements contribute to the overall structure and flow of Arabic handwriting. This cursive connectivity facilitates fluid writing but complicates the recognition process, as it introduces variability in letter shapes and spacing.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\linewidth]{Figs/fig2.png}
-  \caption{Sample line images from the KHATT dataset \cite{mahmoud2014khatt}.}
+  \caption{some good caption.}
   \label{fig:ab}
+\end{figure}
+
+\subsubsection{Separating Characters and Word Segmentation}
+
+Arabic includes six separating characters namely 
+"\artext{ا}", "\artext{ر}", "\artext{ز}", "\artext{د}", "\artext{ذ}" and "\artext{و}", which are not connected to the characters that follow them. These separating characters divide words into smaller units known as Parts of Arabic Words (PAWs). Each word may consist of one or more PAWs depending on the presence of separating characters. Accurate segmentation of PAWs is critical for effective HTR, as it influences the ability to isolate and recognize individual characters within connected scripts. Examples of words composed of one, two, three, four, or ﬁve PAWs are presented in Table~\ref{table:words_with_paws}.
+
+\begin{table}[ht]
+  \renewcommand{\arraystretch}{1.3}
+  \caption{Examples of Words with One, Two, Three, Four, and Five PAWs}
+  \label{table:words_with_paws}
+  \centering
+  \begin{tabular}{|c|p{2cm}|>{\centering\arraybackslash}p{3cm}|}
+  \hline
+  \textbf{No. of PAWs} & \textbf{Example} & \textbf{Division (Right-to-Left)} \\
+  \hline
+  \rule{0pt}{10pt} One PAW   & \artext{ليث}       & \artext{ليث} \rule[-8pt]{0pt}{8pt} \\ 
+  \hline
+  \rule{0pt}{10pt} Two PAWs  & \artext{حمزة}      & \artext{حمز  + ة} \rule[-8pt]{0pt}{8pt} \\ 
+  \hline
+  \rule{0pt}{10pt} Three PAWs & \artext{إبراهيم}  & \artext{إ + برا + هيم} \rule[-8pt]{0pt}{8pt} \\ 
+  \hline
+  \rule{0pt}{10pt} Four PAWs  & \artext{نورة}     & \artext{نو + رة} \rule[-8pt]{0pt}{8pt} \\ 
+  \hline
+  \rule{0pt}{10pt} Five PAWs  & \artext{أوراد}    & \artext{أ + و + را + د} \rule[-8pt]{0pt}{8pt} \\ 
+  \hline
+  \end{tabular}
+\end{table}
+
+
+
+
+\subsubsection{Overlapping in Handwritten PAWs}
+In handwritten Arabic, PAWs may exhibit vertical overlapping, where characters within a word or between adjacent words overlap vertically. Figure ~\ref{fig:vo} illustrates examples of such overlapping, demonstrating how characters can intertwine, making segmentation and recognition more challenging. This overlapping is a common occurrence in cursive handwriting and requires robust HTR systems capable of accurately distinguishing and recognizing characters despite such distortions.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\linewidth]{Figs/fig3.png}
+  \caption{Vertical Overlapping between 2 PAWs in the same word.}
+  \label{fig:vo}
 \end{figure}
 
 
