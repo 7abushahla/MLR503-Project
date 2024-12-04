@@ -116,8 +116,6 @@ The Arabic language is the official language of 24 sovereign countries and is sp
   \label{fig:engagement_examples}
 \end{figure}
 
-
-
 In particular, the automated recognition and digitization of Arabic cursive handwriting present unique challenges due to the inherent complexities of the script. For one, Arabic is written from right to left, with letters assuming different shapes based on their positional context within words. In addition, diacritical marks, known as "\artext{حركات}" (harakat), and other special symbols such as the "\artext{همزة}" (hamza) and "\artext{مدّة}" (madda) further complicate the digitization process, as many letters share identical base shapes but are distinguished by one or more dots placed above or below the character \cite{el1990arabic}. These characteristics, combined with the variability in individual handwriting styles, make the task of accurately recognizing and digitizing Arabic handwriting particularly demanding. Furthermore, because of these unique challenges, techniques developed for recognizing handwriting in other languages, such as Latin-based scripts, cannot be directly applied to Arabic, necessitating tailored approaches and specialized models \cite{alrobah2022arabic}.
 
 Traditional Arabic HTR systems have predominantly relied on shallow learning techniques \cite{mutawa2024machine}. These methods typically involve handcrafted feature extraction processes that are sensitive to noise and degradation, limiting their effectiveness and scalability \cite{parvez2013offline}. Furthermore, most existing systems adopt a segmentation-based approach, requiring the segmentation of words into individual characters before recognition. This segmentation process is particularly challenging for Arabic due to the cursive connections between letters and the presence of similar character shapes, making it difficult to accurately isolate each character \cite{faizullah2023survey, mezghani2023recent}. In contrast, segmentation-free models (holistic approaches) recognize words as whole-word images without any segmentation processes, which can be more effective for specific applications with limited vocabularies \cite{alkhateeb2009component, nashwan2017holistic}.
@@ -186,7 +184,89 @@ Recent advancements in deep learning have introduced attention-based models and 
 
 \subsection{Characteristics of Arabic Handwriting}
 
-Characteristics of Arabic handwriting: cursive nature, positional letter shapes, and diacritics. \\
+Arabic handwriting possesses several distinctive features that present unique challenges for Handwritten Text Recognition (HTR) systems. A comprehensive understanding of these characteristics is essential for developing effective recognition models tailored to the intricacies of the Arabic script. This section delineates the primary attributes of Arabic handwriting that influence the design and performance of HTR systems.
+
+\subsubsection{Character Level Characteristics}
+
+The Arabic alphabet comprises 28 primary characters, each of which does not have distinct uppercase or lowercase forms. Instead, each character can adopt two to four different shapes depending on its position within a word: isolated, initial, medial, or final. Consequently, the 28 Arabic letters are represented by 84 distinct forms. Table~\ref{table:arabic_characters} illustrates the Arabic letters in their four positional forms, detailing the letter order in the Arabic alphabet, pronunciation, and the various shapes each letter assumes based on its placement within a word. Notably, separating characters, such as "\artext{ا}" (Alif) and "\artext{ر}" (Raa), have only two forms: isolated and final.
+
+\begin{table*}[ht]
+  \renewcommand{\arraystretch}{1.5}
+  \caption{Arabic Characters in the 4 Forms: Isolated, Beginning, Middle, and End}
+  \label{table:arabic_characters}
+  \centering
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|}
+  \hline
+  \textbf{No.} & \textbf{Pronunciation} & \textbf{Isolated} & \textbf{Beginning} & \textbf{Middle} & \textbf{End} & \textbf{No.} & \textbf{Pronunciation} & \textbf{Isolated} & \textbf{Beginning} & \textbf{Middle} & \textbf{End} \\
+  \hline
+  1  & Alef & \artext{ا} & \artext{ا} & \artext{ا} & \artext{ـا} & 15 & Dhad  & \artext{ض} & \artext{ضـ} & \artext{ـضـ} & \artext{ـض} \\
+  2  & Baa  & \artext{ب} & \artext{بـ} & \artext{ـبـ} & \artext{ـب} & 16 & Taa   & \artext{ط} & \artext{طـ} & \artext{ـطـ} & \artext{ـط} \\
+  3  & Taa  & \artext{ت} & \artext{تـ} & \artext{ـتـ} & \artext{ـت} & 17 & Thaa  & \artext{ظ} & \artext{ظـ} & \artext{ـظـ} & \artext{ـظ} \\
+  4  & Thaa & \artext{ث} & \artext{ثـ} & \artext{ـثـ} & \artext{ـث} & 18 & Ain   & \artext{ع} & \artext{عـ} & \artext{ـعـ} & \artext{ـع} \\
+  5  & Jeem & \artext{ج} & \artext{جـ} & \artext{ـجـ} & \artext{ـج} & 19 & Ghain & \artext{غ} & \artext{غـ} & \artext{ـغـ} & \artext{ـغ} \\
+  6  & Haa  & \artext{ح} & \artext{حـ} & \artext{ـحـ} & \artext{ـح} & 20 & Faa   & \artext{ف} & \artext{فـ} & \artext{ـفـ} & \artext{ـف} \\
+  7  & Khaa & \artext{خ} & \artext{خـ} & \artext{ـخـ} & \artext{ـخ} & 21 & Qaf   & \artext{ق} & \artext{قـ} & \artext{ـقـ} & \artext{ـق} \\
+  8  & Dal  & \artext{د} & \artext{د}  & \artext{د}  & \artext{ـد} & 22 & Kaf   & \artext{ك} & \artext{كـ} & \artext{ـكـ} & \artext{ـك} \\
+  9  & Thal & \artext{ذ} & \artext{ذ}  & \artext{ذ}  & \artext{ـذ} & 23 & Lam   & \artext{ل} & \artext{لـ} & \artext{ـلـ} & \artext{ـل} \\
+  10 & Raa  & \artext{ر} & \artext{ر}  & \artext{ر}  & \artext{ـر} & 24 & Meem  & \artext{م} & \artext{مـ} & \artext{ـمـ} & \artext{ـم} \\
+  11 & Zai  & \artext{ز} & \artext{ز}  & \artext{ز}  & \artext{ـز} & 25 & Noon  & \artext{ن} & \artext{نـ} & \artext{ـنـ} & \artext{ـن} \\
+  12 & Seen & \artext{س} & \artext{سـ} & \artext{ـسـ} & \artext{ـس} & 26 & Ha    & \artext{ه} & \artext{هـ} & \artext{ـهـ} & \artext{ـه} \\
+  13 & Sheen& \artext{ش} & \artext{شـ} & \artext{ـشـ} & \artext{ـش} & 27 & Waw   & \artext{و} & \artext{و}  & \artext{و}  & \artext{ـو} \\
+  14 & Sad  & \artext{ص} & \artext{صـ} & \artext{ـصـ} & \artext{ـص} & 28 & Yaa   & \artext{ي} & \artext{يـ} & \artext{ـيـ} & \artext{ـي} \\
+  \hline
+  \end{tabular}
+  \end{table*}
+
+\subsubsection{Diacritical Marks (Dots)}
+Dots are integral components of Arabic letters, playing a crucial role in distinguishing characters that share the same primary strokes. Arabic utilizes 16 main strokes, and the presence, absence, or placement of dots can differentiate between letters with identical base shapes. For instance, the letters "\artext{ب}" (Ba), "\artext{ت}" (Ta), and "\artext{ث}" (Tha) are differentiated solely by the number and position of dots below them. Accurate recognition of these diacritical marks is essential to prevent misclassification and ensure the correct interpretation of words. Table~\ref{table:main_strokes} shows the 16 main strokes of the Arabic script, and able~\ref{table:characters_with_dots} displays the letters categorized by one, two, or three dots.
+
+
+\begin{table}[ht]
+\renewcommand{\arraystretch}{1.3}
+\caption{Main Arabic Characters Strokes}
+\label{table:main_strokes}
+\centering
+\begin{tabular}{|c|}
+\hline
+\textbf{Arabic Main Stroke} \\
+\hline
+\rule{0pt}{10pt} \artext{ا ب ج د ر س ص ط ع ف ك ل م ن و ي} \rule[-8pt]{0pt}{8pt} \\ % Equal padding
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[ht]
+  \renewcommand{\arraystretch}{1.3}
+  \caption{Arabic Characters That Have One, Two, or Three Dots}
+  \label{table:characters_with_dots}
+  \centering
+  \begin{tabular}{|c|p{6cm}|}
+  \hline
+  \textbf{No. of Dots} & \textbf{Letters} \\
+  \hline
+  \rule{0pt}{10pt} One dot   & \rule{0pt}{10pt} \artext{ب ج خ ذ ز ض ظ غ ف ن} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
+  \hline
+  \rule{0pt}{10pt} Two dots  & \rule{0pt}{10pt} \artext{ت ق ي} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
+  \hline
+  \rule{0pt}{10pt} Three dots & \rule{0pt}{10pt} \artext{ث ش} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
+  \hline
+  \end{tabular}
+\end{table}
+
+\subsubsection{Hamzah: A Special Character}
+
+The hamzah "\artext{ء}" is a unique character in the Arabic script that can function as a primary character or as a subcomponent integrated within other primary characters. For example, the hamzah appears as a standalone character in words like "\artext{سماء}" (samā’, meaning sky) and "\artext{هواء}" (hawā’, meaning air). Additionally, the hamzah can be incorporated within other letters, such as "\artext{ك}", "\artext{أ}", "\artext{ئ}", "\artext{ؤ}", and "\artext{إ}". Moreover, the placement of the hamzah, whether above, below, or within a letter, determines its pronunciation and role within different word contexts.
+
+\subsubsection{Cursive Nature and Baseline Structure}
+Arabic is inherently a cursive script in both its printed and handwritten forms, meaning that letters within words are connected by a horizontal line known as the baseline. Portions of characters that extend below the baseline are referred to as "descenders," while those that extend above are termed "ascenders." Figure~\ref{fig:ab} depicts the baseline with ascenders and descenders, highlighting how these elements contribute to the overall structure and flow of Arabic handwriting. This cursive connectivity facilitates fluid writing but complicates the recognition process, as it introduces variability in letter shapes and spacing.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\linewidth]{Figs/fig2.png}
+  \caption{Sample line images from the KHATT dataset \cite{mahmoud2014khatt}.}
+  \label{fig:ab}
+\end{figure}
+
 
 \subsection{Challenges in Arabic HTR}
 
@@ -217,11 +297,9 @@ Review of existing HTR systems for Arabic text.
 Limitations of traditional feature-based approaches in HTR.
 Advances in deep learning for handwriting recognition.
 Datasets of Arabic Handwriting:
-Overview of existing datasets: WAHD, KHATT, and Balamand.
+Overview of existing datasets: 
 Introduction of the Muharaf dataset, its features, and its advantages.
 
-
-\blindtext[3]
 
 \subsection{Preprocessing of Arabic Handwriting}
 
