@@ -301,11 +301,15 @@ Overview of existing datasets:
 Introduction of the Muharaf dataset, its features, and its advantages.
 
 
-\subsection{Preprocessing of Arabic Handwriting}
+\subsection{Preprocessing Techniques}
 
 Preprocessing techniques are a crucial pre-requisite to any model's input. It ensures that the model is able to focus on the important features of the input to enable it to better detect patterns. In our case, our input is images that are handwritten Arabic documents and so it is crucial to ensure that the models are receiving input that can allow it to identify handwriting, letter styles, and strokes. 
 
 A means of doing this is binarization. Binarization is a crucial preprocessing step that transfroms input images, whether they are RGB or grayscale, into a simplified binary format. The purpose of this is to highlight character strokes and remove unneccessary image color information. There are different ways to apply thresholds for binarization, the most prominent being global thresholding where beyond a certain threshold, the pixel is set to 1 and below that, set to 0. A more robust way is Otsu's method \cite{otsu1979aa} that finds an optimal global threshold by minimizing intra-class variance. It has been also proven to exhibit lower running times at a mean of 2 seconds \cite{sahlol2014proposed}. Another approach is differentiable binarization that integrates the binarization process into network training, allowing it to be part of optimization and loss calculations \cite{liao2022real}. Differentiable binarization uses an adaptive threshold map learned from the network to apply different thresholds on different parts of the image which is useful in areas of low confidence in boundary regions compared to areas of high confidence centrally within the image. Furthermore, this layer can be removed once the model is trained to ensure that inference time is not impacted.  
+
+Another measure of preprocessing is noise removal. Noise removal is a crucial step as images often do not come in ideal conditions leading to poor model performance if fed directly. One of the techniques of noise removal is median filtering. The median of a group of pixels (3x3, 5x5, 7x7, etc.) that surround a specific pixel (its neighborhood) replaces the pixel to smooth out and reduce noise within the image \cite{sahlol2014proposed,alghyaline2023arabic}. Another common category of techniques is morphological operations. These operations manipulate the shape of the input images. These operations include dilation, erosion, opening, and closing \cite{alghyaline2023arabic}. Dilation adds pixels to the boundaries of objects in an image making them thicker within the image. Conversely, erosion removes pixels from object boundaries, eliminating pixels that are isolated. Opening and closing are then combinations of erosion and dilation that help find the right balance between refining object shapes and eliminating noise. 
+
+
 
 
 \subsection{Deep Learning Methods for OCR}
