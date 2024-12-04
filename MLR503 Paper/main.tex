@@ -116,7 +116,7 @@ The Arabic language is the official language of 24 sovereign countries and is sp
   \label{fig:engagement_examples}
 \end{figure}
 
-In particular, the automated recognition and digitization of Arabic cursive handwriting present unique challenges due to the inherent complexities of the script. For one, Arabic is written from right to left, with letters assuming different shapes based on their positional context within words. In addition, diacritical marks, known as "\artext{حركات}" (harakat), and other special symbols such as the "\artext{همزة}" (hamza) and "\artext{مدّة}" (madda) further complicate the digitization process, as many letters share identical base shapes but are distinguished by one or more dots placed above or below the character \cite{el1990arabic}. These characteristics, combined with the variability in individual handwriting styles, make the task of accurately recognizing and digitizing Arabic handwriting particularly demanding. Furthermore, because of these unique challenges, techniques developed for recognizing handwriting in other languages, such as Latin-based scripts, cannot be directly applied to Arabic, necessitating tailored approaches and specialized models \cite{alrobah2022arabic}.
+In particular, the automated recognition and digitization of Arabic cursive handwriting present unique challenges due to the inherent complexities of the script. For one, Arabic is written from right to left, with letters assuming different shapes based on their positional context within words. In addition, diacritical marks, known as "\artext{حركات}" (harakat), and other special symbols such as the "\artext{همزة}" (hamzah) further complicate the digitization process, as many letters share identical base shapes but are distinguished by one or more dots placed above or below the character \cite{el1990arabic}. These characteristics, combined with the variability in individual handwriting styles, make the task of accurately recognizing and digitizing Arabic handwriting particularly demanding. Furthermore, because of these unique challenges, techniques developed for recognizing handwriting in other languages, such as Latin-based scripts, cannot be directly applied to Arabic, necessitating tailored approaches and specialized models \cite{alrobah2022arabic}.
 
 Traditional Arabic HTR systems have predominantly relied on shallow learning techniques \cite{mutawa2024machine}. These methods typically involve handcrafted feature extraction processes that are sensitive to noise and degradation, limiting their effectiveness and scalability \cite{parvez2013offline}. Furthermore, most existing systems adopt a segmentation-based approach, requiring the segmentation of words into individual characters before recognition. This segmentation process is particularly challenging for Arabic due to the cursive connections between letters and the presence of similar character shapes, making it difficult to accurately isolate each character \cite{faizullah2023survey, mezghani2023recent}. In contrast, segmentation-free models (holistic approaches) recognize words as whole-word images without any segmentation processes, which can be more effective for specific applications with limited vocabularies \cite{alkhateeb2009component, nashwan2017holistic}.
 
@@ -141,6 +141,16 @@ The remainder of this paper is organized as follows: Section 2 provides the back
 
 \section{Background}
 %anything here?
+
+
+
+
+
+
+
+
+
+
 
 \subsection{Handwritten Text Recognition}
 
@@ -240,15 +250,15 @@ Dots are integral components of Arabic letters, playing a crucial role in distin
   \caption{Arabic Characters That Have One, Two, or Three Dots}
   \label{table:characters_with_dots}
   \centering
-  \begin{tabular}{|c|p{6cm}|}
+  \begin{tabular}{|c|>{\centering\arraybackslash}p{6cm}|}
   \hline
   \textbf{No. of Dots} & \textbf{Letters} \\
   \hline
-  \rule{0pt}{10pt} One dot   & \rule{0pt}{10pt} \artext{ب ج خ ذ ز ض ظ غ ف ن} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
+  \rule{0pt}{10pt} One dot   & \artext{ب ج خ ذ ز ض ظ غ ف ن} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
   \hline
-  \rule{0pt}{10pt} Two dots  & \rule{0pt}{10pt} \artext{ت ق ي} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
+  \rule{0pt}{10pt} Two dots  & \artext{ت ق ي} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
   \hline
-  \rule{0pt}{10pt} Three dots & \rule{0pt}{10pt} \artext{ث ش} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
+  \rule{0pt}{10pt} Three dots & \artext{ث ش} \rule[-8pt]{0pt}{8pt} \\ % Equal padding for row
   \hline
   \end{tabular}
 \end{table}
@@ -257,31 +267,111 @@ Dots are integral components of Arabic letters, playing a crucial role in distin
 
 The hamzah "\artext{ء}" is a unique character in the Arabic script that can function as a primary character or as a subcomponent integrated within other primary characters. For example, the hamzah appears as a standalone character in words like "\artext{سماء}" (samā’, meaning sky) and "\artext{هواء}" (hawā’, meaning air). Additionally, the hamzah can be incorporated within other letters, such as "\artext{ك}", "\artext{أ}", "\artext{ئ}", "\artext{ؤ}", and "\artext{إ}". Moreover, the placement of the hamzah, whether above, below, or within a letter, determines its pronunciation and role within different word contexts.
 
+\subsubsection{ Diacritics: Tashkeel and Tanween}
+
+"\artext{التشكيل}" (tashkeel), also known as "\artext{حركات}" (harakat), and "\artext{التنوين}" (tanween) are diacritical marks used in Arabic to indicate pronunciation and grammatical nuances.  Tashkeel consists of five symbols that modify the meaning and pronunciation of words. For example, the words "\artext{عِلْم}" (ilm, meaning knowledge) and "\artext{عَلَم}" (alam, meaning flag) share the same base characters but differ in their Tashkeel, altering their meanings significantly. Although Tashkeel is not extensively used in everyday Arabic writing, since context often clarifies meaning, it is essential for novice readers and in educational materials. Tashkeel can change the semantic interpretation of words, making its accurate recognition (if present) vital for preserving textual integrity.
+
 \subsubsection{Cursive Nature and Baseline Structure}
 Arabic is inherently a cursive script in both its printed and handwritten forms, meaning that letters within words are connected by a horizontal line known as the baseline. Portions of characters that extend below the baseline are referred to as "descenders," while those that extend above are termed "ascenders." Figure~\ref{fig:ab} depicts the baseline with ascenders and descenders, highlighting how these elements contribute to the overall structure and flow of Arabic handwriting. This cursive connectivity facilitates fluid writing but complicates the recognition process, as it introduces variability in letter shapes and spacing.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\linewidth]{Figs/fig2.png}
-  \caption{Sample line images from the KHATT dataset \cite{mahmoud2014khatt}.}
+  \caption{some good caption.}
   \label{fig:ab}
+\end{figure}
+
+\subsubsection{Separating Characters and Word Segmentation}
+
+Arabic includes six separating characters namely 
+"\artext{ا}", "\artext{ر}", "\artext{ز}", "\artext{د}", "\artext{ذ}" and "\artext{و}", which are not connected to the characters that follow them. These separating characters divide words into smaller units known as Parts of Arabic Words (PAWs). Each word may consist of one or more PAWs depending on the presence of separating characters. Accurate segmentation of PAWs is critical for effective HTR, as it influences the ability to isolate and recognize individual characters within connected scripts. Examples of words composed of one, two, three, four, or ﬁve PAWs are presented in Table~\ref{table:words_with_paws}.
+
+\begin{table}[ht]
+  \renewcommand{\arraystretch}{1.3}
+  \caption{Examples of Words with One, Two, Three, Four, and Five PAWs}
+  \label{table:words_with_paws}
+  \centering
+  \begin{tabular}{|c|>{\centering\arraybackslash}p{2cm}|>{\centering\arraybackslash}p{3cm}|}
+  \hline
+  \textbf{No. of PAWs} & \textbf{Example} & \textbf{Division (Right-to-Left)} \\
+  \hline
+  \rule{0pt}{10pt} One PAW   & \artext{ليث}       & \artext{ليث} \rule[-8pt]{0pt}{8pt} \\ 
+  \hline
+  \rule{0pt}{10pt} Two PAWs  & \artext{حمزة}      & \artext{حمز  + ة} \rule[-8pt]{0pt}{8pt} \\ 
+  \hline
+  \rule{0pt}{10pt} Three PAWs & \artext{إبراهيم}  & \artext{إ + برا + هيم} \rule[-8pt]{0pt}{8pt} \\ 
+  \hline
+  \rule{0pt}{10pt} Four PAWs  & \artext{نورة}     & \artext{نو + رة} \rule[-8pt]{0pt}{8pt} \\ 
+  \hline
+  \rule{0pt}{10pt} Five PAWs  & \artext{أوراد}    & \artext{أ + و + را + د} \rule[-8pt]{0pt}{8pt} \\ 
+  \hline
+  \end{tabular}
+\end{table}
+
+
+
+
+\subsubsection{Overlapping in Handwritten PAWs}
+In handwritten Arabic, PAWs may exhibit vertical overlapping, where characters within a word or between adjacent words overlap vertically. Figure ~\ref{fig:vo} illustrates examples of such overlapping, demonstrating how characters can intertwine, making segmentation and recognition more challenging. This overlapping is a common occurrence in cursive handwriting and requires robust HTR systems capable of accurately distinguishing and recognizing characters despite such distortions.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\linewidth]{Figs/fig3.png}
+  \caption{Vertical Overlapping between 2 PAWs in the same word.}
+  \label{fig:vo}
 \end{figure}
 
 
 \subsection{Challenges in Arabic HTR}
 
-Challenges in Arabic HTR and its historical significance. \\
+The recognition of Arabic handwritten text poses unique challenges due to the intricacies of the script, the variability of its handwritten forms, and the limitations of current resources and methodologies. This section explores these challenges in depth, highlighting the inherent difficulties that hinder the development of robust Arabic HTR systems.
 
 
+\subsubsection{High Variability in Handwriting Styles}
 
-Importance of datasets for advancing HTR research. \\
-
-\clearpage
-
+Arabic handwriting exhibits a significant degree of variability, making it one of the most challenging scripts to process. Unlike many other scripts, Arabic handwriting allows for a broad range of stylistic diversity that is still considered acceptable. Individual differences in stroke thickness, letter spacing, slant, and elongation further contribute to the variation in handwritten forms. These stylistic differences are not arbitrary; they are often influenced by cultural and regional preferences. For example, traditional calligraphic styles such as "\artext{النسخ}" (Naskh), "\artext{الرقعة}" (Ruq’ah), and "\artext{الكوفي}" (Kufi) have distinct proportions and connections, which can manifest even in casual handwriting. Figure ~\ref{fig:mr}  illustrates examples of handwritten Arabic, showcasing the variability across different writers and styles.
 
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\linewidth]{Figs/fig4.png}
+  \caption{Vertical Overlapping between 2 PAWs in the same word.}
+  \label{fig:mr}
+\end{figure}
+
+Additionally, Arabic handwriting is not restricted to a single standardized form. Variants of Modern Standard Arabic (MSA) often appear in handwritten texts, including informal adaptations and regional orthographic practices. Although HTR systems are not tasked with interpreting dialects or regional meanings, the visual form of these handwritten variants—such as alternative spellings or elongated structures—introduces challenges in character recognition. This vast variability complicates segmentation and encoding, where traditional OCR systems fail due to their reliance on rigid, rule-based approaches. Unlike scripts with default spaces between characters, Arabic’s cursive nature creates continuous connections between letters, making segmentation into discrete units a formidable task. \\
 
 
+///might end up removing, lets seee.
+
+
+%%%%%%%%%NEED TO UN-GPT THIS%%%%%%%%%%
+
+\subsubsection{Right-to-Left Directionality and Structural Bias}
+
+
+The right-to-left (RTL) directionality of Arabic script introduces significant challenges for handwritten text recognition (HTR) systems, which are predominantly designed for left-to-right (LTR) languages. This fundamental difference impacts multiple aspects of HTR, including preprocessing, feature extraction, and sequence modeling, and requires specific adaptations to ensure that the system can effectively process Arabic text.
+
+In Arabic, text begins at the top-right and flows toward the left, a structure that conflicts with the assumptions underlying most LTR-oriented algorithms. This discrepancy is particularly evident in preprocessing tasks, such as baseline detection and text alignment. For instance, the baseline of Arabic text is often affected by dynamic interactions between ascenders (e.g., "\artext{ط}") and descenders (e.g., "\artext{ي}"), which are more pronounced in cursive handwritten styles. Traditional baseline detection methods, which assume a uniform LTR structure, often misalign Arabic text, leading to errors in segmentation and recognition.
+
+
+Convolutional Neural Networks (CNNs), a cornerstone of modern HTR systems, exacerbate these challenges with their sliding window mechanism. CNNs typically extract features by moving a kernel across the image from left to right. While effective for LTR scripts, this process introduces a structural bias when applied to Arabic text. Since Arabic handwriting flows from right to left, the CNN begins processing at the visual end of the word and progresses toward its beginning, disrupting the natural progression of contextual features. This mismatch results in suboptimal recognition of connected letters and diacritics, which are essential for accurate Arabic text recognition.
+
+A commonly used workaround is to flip the input image horizontally, making the Arabic text visually appear as if it flows from left to right. While this enables LTR-designed systems to process the text more effectively, it introduces new challenges. Horizontal flipping can distort spatial relationships, particularly for diacritics or overlapping characters, and fails to address the inherent biases in the model architecture. For example, flipped input does not resolve issues in sequence alignment, where the reversed order may still impact downstream tasks like decoding.
+
+In sequence modeling architectures, such as Recurrent Neural Networks (RNNs) and Transformers, RTL directionality creates additional challenges. RNNs, which process sequences step-by-step, are particularly sensitive to input order. A model trained on LTR text encounters Arabic text in reverse, handling the end of the sequence first and losing the natural semantic flow. Transformers, although more flexible due to their self-attention mechanisms, face similar problems. Positional encodings in pretrained Transformer models are often designed for LTR scripts, and their application to RTL text misaligns attention distributions, reducing the model’s ability to accurately weight the importance of characters at the beginning of words.
+
+Addressing these biases requires architectural and algorithmic adaptations. For CNNs, designing RTL-compatible sliding window mechanisms that traverse the image in the correct direction aligns feature extraction with the natural flow of Arabic text. Similarly, retraining RNNs and Transformers with RTL-specific positional encodings or bidirectional capabilities helps to preserve the contextual integrity of Arabic handwriting. While preprocessing techniques such as horizontal flipping offer a temporary fix, they are insufficient for addressing the deeper structural challenges posed by RTL scripts. Robust adaptations at the model level are essential for achieving accurate and reliable recognition of Arabic handwritten text.
+
+
+\subsubsection{Dataset Limitations}
+
+The scarcity of high-quality, diverse datasets is one of the most significant obstacles to advancing Arabic HTR systems. While several datasets have been developed, such as KHATT and IFN/ENIT, they often fail to encompass the full spectrum of Arabic handwriting styles and scenarios. These datasets are typically limited in terms of writer demographics, regional variations, and text complexity. Moreover, many existing corpora focus exclusively on Modern Standard Arabic (MSA), excluding handwritten texts that exhibit informal, decorative, or application-specific features.
+
+Another pressing issue is the size and annotation quality of available datasets. Compared to resources for widely studied languages like English, Arabic handwriting datasets are smaller in scale and less diverse. Annotated data for complex elements, such as diacritics, overlapping characters, or noisy inputs, remain particularly sparse. These deficiencies hinder the ability of HTR systems to generalize effectively across different writing styles and real-world applications. The creation of larger, more representative datasets with comprehensive annotations is essential for addressing these limitations and supporting the training of advanced HTR models.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 
@@ -352,20 +442,32 @@ Arabic Handwritten Text Images Database written by Multiple Writers (AHTID/MW) d
 
 
 \subsection{Data Preparation and Preprocessing}
-To prepare the data for model training, we utilized the filtered line-by-line images. The following preprocessing steps were applied to ensure consistency and enhance the model’s performance...
 
+% The KHATT dataset was unaccessable (webside was corrupted), we could not find the official source. we find differnet versions online e.g. kaggle and huggingface. we ededup seleetign this one to use. although it does not have all the # of lines reported in other papers. so we used the one from kaggle. this was was already made into lines and preprocessed (as far as we could tell) with ground truth lables in txt format
 
-- Resizing, Normalization, Augmentation
+To prepare the data for model training, we utilized the filtered line-by-line images of the KHATT dataset from *CITE KAGGLE LINK HERE*. The data has already been preprocessed by binarizing the images, cropping out the unnecessary whitespaces around the handwritten texts, and straightening out the lines as much as possible. Thus, the only preprocessing we had to do was adhering to the paper's *CITE THE PAPER WE ARE REPRODUCING HERE* resizing of the images to 64 pixels for the height and 1048 for the width, normalizing the images, and horizontally flipping the images and the labels because a CNN traverses the image from left-to-right. Furthermore, we used a 70-15-15 train-validation-test split stratified on the length of the sentences because longer sentences may impact the discriminative ability of the model. Before this step, we had to aggregate sentences with less than eight characters to ensure an adequate number of samples of varying sentence lengths for each split. Lastly, we did not employ data augmentations because when they were introduced, the model stopped learning after some epochs.
 
 \subsection{Supervised Learning}
 
 \subsubsection{Model Architecture}
 
-We implemented a CNN-based architecture...
+As we aim to reproduce the results of *CITE PAPER WE ARE REPRODUCING*, we reimplemented the architecture detailed in the paper to the best of our ability. This led to us creating the CNN-BiLSTM architecture, which is the most popular framework for the OCR task *CITE PAPERS THAT USED CNN-BiLSTMs* for a number of reasons. Moving away from using handcrafted features like SIFT descriptors, the CNN is responsible for extracting the hierarchical spatial features inherent in an image, especially in handwritten text images. As the CNN traverses the handwritten text from left-to-right, it learns, through its various filters, how to capture the the shapes of diacritics, letters, and words in Arabic handwritten text. Adding more and more layers can result in a better representation of the handwritten text. However, training deeper networks is not necessarily easy, mostly due to the vanishing gradient problem -- where multiplying many small gradients together will result in hindering the neural network's learning process. Thus, the introduction of skip connecions or residual connections.
+
+Skip connections allows a layer to bypass one or more subsequent layers by adding or concatenating its output as another input to a non-consecutive layer. That is, they allow the outputs of a layer to be fed to a much later layer. This is the foundational idea of the ResNet architecture. With these skip connections, training deeper networks is easier and the impact of vanishing gradients is reduced. We recreated the ResNet32 architecture, serving as the backbone and the feature extractor of our handwritten text images. The only change we made was adding a \( 1 \times 1 \) convolutional layer in the residual block to handle the varying filter sizes for the skip connections. After adding a dropout layer after the ResNet block to lessen the chances of overfitting to the training set, the feature maps are fed into the three BiLSTMs. The three BiLSTMs deal with the sequential nature of handwriting and the necessity in considering the connections between each letter to form a word, especially important in cursive-styled text like Arabic. Succeeding the dropout layer directly after all three BiLSTM layers is a fully connected dense layer with CTC as the loss function to help optimize how the model learns how to align its prediction to the groundtruth labels. Both dropout layers randomly drop neurons at a rate of 0.2 and we added batch normalization layers in the residual blocks for training stabilization and faster convergence.
 
 \subsubsection{Model Training and Evaluation}
 
-The model was trained using a categorical cross-entropy loss function and the Adam optimizer. Early stopping was employed to prevent overfitting.
+OCR is a sequence-to-sequence problem because a sequence of characters are recognized from the images and a sequence of characters are predicted to match the characters seen from the handwritten text. For this specific task, we used the CTC as our loss function during our training process, lasting 300 epochs. The Adadelta optimizer was used with an initially high learning rate of 1.0. The hyperparameters for model training are mentioned below:
+
+We used various callbacks to help the model not get stuck in a local minimum and to boost generalization capabilities. The two main callbacks for these goals are ReduceLROnPlateau and EarlyStopping. ReduceLROnPlateau is a scheduler that adaptively reduces the learning rate whenever the validation loss plateaus for every 5 epochs. The reduction in the learning rate is by a factor of 0.5 to ensure smoother network convergence. The learning rate scheduler's parameters are detailed in *TABLE HERE*. To prevent wasting time and resources on overtraining and to avoid overfitting, EarlyStopping with a patience of 50 epochs is used. If the model does not improve on the evaluation metric monitored by EarlyStopping -- validation loss in our case -- then, model training will be halted.
+
+To supplement the training process, we utilized additional callback functions. We periodically saved the model every 25 epochs, outputted training and validation metrics for each epoch, and cleared the displayed outputs in the Jupyter Notebook every 10 epochs to improve the readability of the notebook during model training.
+
+Due to the nature of this task, especially with complex scripts such as Arabic, we had to resort to robust metrics to evaluate the performance of the model. These are character error rate (CER) and word error rate (WER). These particular metrics are computed using the Levenshtein distance, a meaure of how different is a sequence of characters from another.
+
+CER measures the character-level differences between the predicted text and the groundtruth, while WER is concerned about word-level discrepancies. 
+
+Model training was conducted on two NVIDIA A100 (SXM4) Tensor Core GPUs, each with 80 GB of memory. One was provided by the American University of Sharjah's (AUS) Computer Science and Engineering (CSE) Department from their Artificial Intelligence (AI) lab, while another was accessed remotely through RunPod's platform.
 
 
 
