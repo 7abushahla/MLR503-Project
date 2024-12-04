@@ -392,16 +392,15 @@ Arabic Handwritten Text Images Database written by Multiple Writers (AHTID/MW) d
 
 
 \subsection{Data Preparation and Preprocessing}
-To prepare the data for model training, we utilized the filtered line-by-line images. The following preprocessing steps were applied to ensure consistency and enhance the model’s performance...
-
-
-- Resizing, Normalization, Augmentation
+To prepare the data for model training, we utilized the filtered line-by-line images of the KHATT dataset from *CITE KAGGLE LINK HERE*. The data has already been preprocessed by binarizing the images, cropping out the unnecessary whitespaces around the handwritten texts, and straightening out the lines as much as possible. Thus, the only preprocessing we had to do was adhering to the paper's *CITE THE PAPER WE ARE REPRODUCING HERE* resizing of the images to 64 pixels for the height and 1048 for the width, normalizing the images, and horizontally flipping the images and the labels because a CNN traverses the image from left-to-right. Additionally, we did not employ data augmentations because when they were introduced, the model stopped learning after some epochs.
 
 \subsection{Supervised Learning}
 
 \subsubsection{Model Architecture}
 
-We implemented a CNN-based architecture...
+As we aim to reproduce the results of *CITE PAPER WE ARE REPRODUCING*, we reimplemented the architecture detailed in the paper to the best of our ability. This led to us creating the CNN-BiLSTM architecture, which is the most popular framework for the OCR task *CITE PAPERS THAT USED CNN-BiLSTMs* for a number of reasons. Moving away from using handcrafted features like SIFT descriptors, the CNN is responsible for extracting the hierarchical spatial features inherent in an image, especially in handwritten text images. As the CNN traverses the handwritten text from left-to-right, it learns, through its various filters, how to capture the the shapes of diacritics, letters, and words in Arabic handwritten text. Adding more and more layers can result in a better representation of the handwritten text. However, training deeper networks is not necessarily easy, mostly due to the vanishing gradient problem -- where multiplying many small gradients together will result in hindering the neural network's learning process. Thus, the introduction of skip connecions or residual connections.
+
+Skip connections allows a layer to bypass one or more subsequent layers by adding or concatenating its output as another input to a non-consecutive layer. That is, they allow the outputs of a layer to be fed to a much later layer. This is the foundational idea of the ResNet architecture. With these skip connections, training deeper networks is easier and the impact of vanishing gradients is reduced. We recreated the ResNet32 architecture, serving as the backbone and the feature extractor of our handwritten text images. The only change we made was adding a \( 1 \times 1 \) convolutional layer in the residual block to handle the varying filter sizes for the skip connections.
 
 \subsubsection{Model Training and Evaluation}
 
