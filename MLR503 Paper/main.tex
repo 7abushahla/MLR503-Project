@@ -175,14 +175,14 @@ However, standard RNNs suffer from a phenomenon known as the vanishing gradient 
 
 Long Short-Term Memory (LSTM) networks address the vanishing gradient problem by introducing memory cells and gating mechanisms. The input gate, forget gate, and output gate control the flow of information, selectively retaining or discarding information as needed. By doing so, LSTMs can effectively learn long-term dependencies, allowing them to process handwriting sequences more robustly. For example, an LSTM can retain information about a diacritical mark at the beginning of a word while processing its subsequent characters, ensuring contextually accurate recognition.
 
-BiLSTMs enhance this capability further by processing sequences in both forward and backward directions, enabling the network to consider both preceding and succeeding context. This bidirectional approach is particularly effective for cursive handwriting, where the meaning of a character often depends on its neighboring characters.
+Bidirectional LSTMs (BiLSTMs) enhance this capability further by processing sequences in both forward and backward directions, enabling the network to consider both preceding and succeeding context. This bidirectional approach is particularly effective for cursive handwriting, where the meaning of a character often depends on its neighboring characters.
 
-For handwriting recognition, Multidimensional Long Short-Term Memory (MDLSTM) networks extend this concept by introducing recurrence along two axes, making them effective for 2D inputs like handwritten line images. This architecture excels at extracting features from line-level text, converting 2D data into 1D sequences for transcription. However, their computational complexity has led to a shift toward hybrid models that combine the spatial feature extraction capabilities of CNNs with the sequential modeling strengths of RNNs or BiLSTMs. These hybrid architectures strike a balance between accuracy and efficiency, allowing modern systems to handle the complexities of cursive handwriting.
+For handwriting recognition, Multidimensional Long Short-Term Memory (MDLSTM) networks extend this concept by introducing recurrence along two axes, making them effective for 2D inputs like handwritten line images. This architecture excels at extracting features from line-level text, converting 2D data into 1D sequences for transcription. However, their computational complexity has led to a shift toward hybrid models that combine the spatial feature extraction capabilities of Convolutional Neural Networks (CNNs) with the sequential modeling strengths of RNNs or BiLSTMs. These hybrid architectures strike a balance between accuracy and efficiency, allowing modern systems to handle the complexities of cursive handwriting.
 
 
 \subsubsection{CTC Loss and Decoding}
 
-A key component in modern HTR systems is the use of CTC as a loss function and decoding mechanism. CTC is particularly suited for sequence-to-sequence tasks, such as HTR, where the input (image features) and output (character transcription) lengths do not match. CTC introduces a special "blank" token that allows the model to handle gaps in alignment, enabling end-to-end training without requiring pre-segmented data.
+A key component in modern HTR systems is the use of Connectionist Temporal Classification (CTC) as a loss function and decoding mechanism. CTC is particularly suited for sequence-to-sequence tasks, such as HTR, where the input (image features) and output (character transcription) lengths do not match. CTC introduces a special "blank" token that allows the model to handle gaps in alignment, enabling end-to-end training without requiring pre-segmented data.
 
 During training, the model outputs a sequence of probability distributions for each time step using a SoftMax function, where each distribution represents the likelihood of all possible characters (and the blank token) at that step. The loss function sums over all possible alignments between the input and output sequences, allowing the model to learn the most probable transcription. For decoding, CTC employs strategies such as greedy decoding, which selects the character with the highest probability at each step, or beam search decoding, which considers multiple candidate sequences to improve accuracy. The use of CTC has been transformative in modern HTR systems, enabling robust transcription of variable-length sequences.
 
@@ -324,11 +324,22 @@ In handwritten Arabic, PAWs may exhibit vertical overlapping, where characters w
 
 \subsection{Challenges in Arabic HTR}
 
-Challenges in Arabic HTR and its historical significance. \\
+The recognition of Arabic handwritten text poses unique challenges due to the intricacies of the script, the variability of its handwritten forms, and the limitations of current resources and methodologies. This section explores these challenges in depth, highlighting the inherent difficulties that hinder the development of robust Arabic HTR systems.
 
 
+\subsubsection{High Variability in Handwriting Styles}
 
-Importance of datasets for advancing HTR research. \\
+Arabic handwriting exhibits a significant degree of variability, making it one of the most challenging scripts to process. Unlike many other scripts, Arabic handwriting allows for a broad range of stylistic diversity that is still considered acceptable. Individual differences in stroke thickness, letter spacing, slant, and elongation further contribute to the variation in handwritten forms. These stylistic differences are not arbitrary; they are often influenced by cultural and regional preferences. For example, traditional calligraphic styles such as "\artext{النسخ}" (Naskh), "\artext{الرقعة}" (Ruq’ah), and "\artext{الكوفي}" (Kufi) have distinct proportions and connections, which can manifest even in casual handwriting. Figure ~\ref{fig:mr}  illustrates examples of handwritten Arabic, showcasing the variability across different writers and styles.
+
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\linewidth]{Figs/fig4.png}
+  \caption{Vertical Overlapping between 2 PAWs in the same word.}
+  \label{fig:mr}
+\end{figure}
+
+
 
 \clearpage
 
