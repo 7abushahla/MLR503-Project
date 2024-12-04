@@ -461,6 +461,7 @@ To supplement the training process, we utilized additional callback functions. W
 
 Due to the nature of this task, especially with complex scripts such as Arabic, we had to resort to robust metrics to evaluate the performance of the model. These are character error rate (CER) and word error rate (WER). These particular metrics are computed using the Levenshtein distance, a meaure of how different is a sequence of characters from another.
 
+CER measures the character-level differences between the predicted text and the groundtruth, while WER is concerned about word-level discrepancies. 
 
 Model training was conducted on two NVIDIA A100 (SXM4) Tensor Core GPUs, each with 80 GB of memory. One was provided by the American University of Sharjah's (AUS) Computer Science and Engineering (CSE) Department from their Artificial Intelligence (AI) lab, while another was accessed remotely through RunPod's platform.
 
