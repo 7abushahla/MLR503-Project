@@ -109,6 +109,13 @@ Arabic Handwriting Recognition, KHATT Dataset, Arabic Handwriting, Optical Chara
 
 The Arabic language is the official language of 24 sovereign countries and is spoken by over 400 million people worldwide \cite{saeed2024muharaf}. It is also one of the six official working languages of the United Nations (UN), reflecting its international importance. Beyond its widespread use, Arabic holds profound cultural, literary, and religious significance, serving as a cornerstone of the heritage of Arab and Muslim communities globally \cite{ayuba2013}. This extensive reach emphasizes the importance of developing accurate Arabic handwritten text recognition (HTR) systems, which have diverse applications in educational, governmental, and cultural preservation contexts \cite{mutawa2024machine}. For instance, the ability to accurately convert both historical and contemporary handwritten Arabic documents into digital text is vital for the digitization of archives, streamlining administrative processes, and supporting large-scale data analysis efforts.
 
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.9\linewidth]{Figs/fig1.png}
+  \caption{Sample line images from the KHATT dataset \cite{mahmoud2014khatt}.}
+  \label{fig:engagement_examples}
+\end{figure}
+
 In particular, the automated recognition and digitization of Arabic cursive handwriting present unique challenges due to the inherent complexities of the script. For one, Arabic is written from right to left, with letters assuming different shapes based on their positional context within words. In addition, diacritical marks, known as "\artext{حركات}" (harakat), and other special symbols such as the "\artext{همزة}" (hamza) and "\artext{مدّة}" (madda) further complicate the digitization process, as many letters share identical base shapes but are distinguished by one or more dots placed above or below the character \cite{el1990arabic}. These characteristics, combined with the variability in individual handwriting styles, make the task of accurately recognizing and digitizing Arabic handwriting particularly demanding. Furthermore, because of these unique challenges, techniques developed for recognizing handwriting in other languages, such as Latin-based scripts, cannot be directly applied to Arabic, necessitating tailored approaches and specialized models \cite{alrobah2022arabic}.
 
 Traditional Arabic HTR systems have predominantly relied on shallow learning techniques \cite{mutawa2024machine}. These methods typically involve handcrafted feature extraction processes that are sensitive to noise and degradation, limiting their effectiveness and scalability \cite{parvez2013offline}. Furthermore, most existing systems adopt a segmentation-based approach, requiring the segmentation of words into individual characters before recognition. This segmentation process is particularly challenging for Arabic due to the cursive connections between letters and the presence of similar character shapes, making it difficult to accurately isolate each character \cite{faizullah2023survey, mezghani2023recent}. In contrast, segmentation-free models (holistic approaches) recognize words as whole-word images without any segmentation processes, which can be more effective for specific applications with limited vocabularies \cite{alkhateeb2009component, nashwan2017holistic}.
@@ -221,7 +228,7 @@ Dots are integral components of Arabic letters, playing a crucial role in distin
 \centering
 \begin{tabular}{|c|}
 \hline
-\textbf{Arabic main stroke} \\
+\textbf{Arabic Main Stroke} \\
 \hline
 \rule{0pt}{10pt} \artext{ا ب ج د ر س ص ط ع ف ك ل م ن و ي} \rule[-8pt]{0pt}{8pt} \\ % Equal padding
 \hline
@@ -248,7 +255,7 @@ Dots are integral components of Arabic letters, playing a crucial role in distin
 
 \subsubsection{Hamzah: A Special Character}
 
-The hamzah "\artext{ء}" is a unique character in the Arabic script that can function as a primary character or as a subcomponent integrated within other primary characters. For example, the hamzah appears as a standalone character in words like "\artext{سماء}" (samā’, meaning sky) and "\artext{هواء}" (hawā’, meaning air). Additionally, Hamzah can be incorporated within other letters, such as "\artext{ك}", "\artext{أ}", "\artext{ئ}", "\artext{ؤ}", and "\artext{إ}". Moreover, the placement of the hamzah, whether above, below, or within a letter, determines its pronunciation and role within different word contexts.
+The hamzah "\artext{ء}" is a unique character in the Arabic script that can function as a primary character or as a subcomponent integrated within other primary characters. For example, the hamzah appears as a standalone character in words like "\artext{سماء}" (samā’, meaning sky) and "\artext{هواء}" (hawā’, meaning air). Additionally, the hamzah can be incorporated within other letters, such as "\artext{ك}", "\artext{أ}", "\artext{ئ}", "\artext{ؤ}", and "\artext{إ}". Moreover, the placement of the hamzah, whether above, below, or within a letter, determines its pronunciation and role within different word contexts.
 
 \subsubsection{Cursive Nature and Baseline Structure}
 Arabic is inherently a cursive script in both its printed and handwritten forms, meaning that letters within words are connected by a horizontal line known as the baseline. Portions of characters that extend below the baseline are referred to as "descenders," while those that extend above are termed "ascenders." Figure 2 depicts the baseline with ascenders and descenders, highlighting how these elements contribute to the overall structure and flow of Arabic handwriting. This cursive connectivity facilitates fluid writing but complicates the recognition process, as it introduces variability in letter shapes and spacing.
