@@ -443,7 +443,7 @@ Arabic Handwritten Text Images Database written by Multiple Writers (AHTID/MW) d
 
 \subsection{Data Preparation and Preprocessing}
 
-% The KHATT dataset was unaccessable (webside was corrupted), we could not find the official source. we find differnet versions online e.g. kaggle and huggingface. we ededup seleetign this one to use. although it does not have all the # of lines reported in other papers. so we used the one from kaggle. this was was already made into lines and preprocessed (as far as we could tell) with ground truth lables in txt format.
+% The KHATT dataset was unaccessable (webside was corrupted), we could not find the official source. we find differnet versions online e.g. kaggle and huggingface. we ededup seleetign this one to use. although it does not have all the # of lines reported in other papers. so we used the one from kaggle. this was was already made into lines and preprocessed (as far as we could tell) with ground truth lables in txt format
 
 To prepare the data for model training, we utilized the filtered line-by-line images of the KHATT dataset from *CITE KAGGLE LINK HERE*. The data has already been preprocessed by binarizing the images, cropping out the unnecessary whitespaces around the handwritten texts, and straightening out the lines as much as possible. Thus, the only preprocessing we had to do was adhering to the paper's *CITE THE PAPER WE ARE REPRODUCING HERE* resizing of the images to 64 pixels for the height and 1048 for the width, normalizing the images, and horizontally flipping the images and the labels because a CNN traverses the image from left-to-right. Furthermore, we used a 70-15-15 train-validation-test split stratified on the length of the sentences because longer sentences may impact the discriminative ability of the model. Before this step, we had to aggregate sentences with less than eight characters to ensure an adequate number of samples of varying sentence lengths for each split. Lastly, we did not employ data augmentations because when they were introduced, the model stopped learning after some epochs.
 
@@ -467,9 +467,9 @@ Due to the nature of this task, especially with complex scripts such as Arabic, 
 
 Model training was conducted on two NVIDIA A100 (SXM4) Tensor Core GPUs, each with 80 GB of memory. One was provided by the American University of Sharjah's (AUS) Computer Science and Engineering (CSE) Department from their Artificial Intelligence (AI) lab, while another was accessed remotely through RunPod's platform.
 
-\[
-    \text{CER} = \frac{S + D + I}{N}
-\]
+\begin{equation}
+    \text{CER} = \frac{S + D + I}{N},
+  \end{equation}
 
 \begin{itemize}
   \item \( S \) = Number of character substitutions
@@ -478,9 +478,9 @@ Model training was conducted on two NVIDIA A100 (SXM4) Tensor Core GPUs, each wi
   \item \( N \) = Total number of characters in the reference (ground truth)
 \end{itemize}
 
-\[
-    \text{WER} = \frac{S + D + I}{N}
-\]
+\begin{equation}
+    \text{WER} = \frac{S + D + I}{N}.
+\end{equation}
 
 \begin{itemize}
   \item \( S \) = Number of word substitutions
