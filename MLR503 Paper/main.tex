@@ -459,22 +459,31 @@ We used various callbacks to help the model not get stuck in a local minimum and
 
 To supplement the training process, we utilized additional callback functions. We periodically saved the model every 25 epochs, outputted training and validation metrics for each epoch, and cleared the displayed outputs in the Jupyter Notebook every 10 epochs to improve the readability of the notebook during model training.
 
-Due to the nature of this task, especially with complex scripts such as Arabic, we had to resort to robust metrics to evaluate the performance of the model. These are character error rate (CER) and word error rate (WER). These particular metrics are computed using the Levenshtein distance, a meaure of how different is a sequence of characters from another.
-
-CER measures the character-level differences between the predicted text and the groundtruth, while WER is concerned about word-level discrepancies. 
+Due to the nature of this task, especially with complex scripts such as Arabic, we had to resort to robust metrics to evaluate the performance of the model. These are character error rate (CER) and word error rate (WER). CER measures the character-level differences between the predicted text and the groundtruth, while WER is concerned about word-level discrepancies. These particular metrics are derived from calculating the Levenshtein distance, a meaure of how different is a sequence of characters from another. The Levenshtein Distance is the minimum number of transformations necessary to convert a sequence into another sequence. These sequences could be insertions, deletions, or substitutions. Below are the similar mathematical formulations for CER and WER:
 
 Model training was conducted on two NVIDIA A100 (SXM4) Tensor Core GPUs, each with 80 GB of memory. One was provided by the American University of Sharjah's (AUS) Computer Science and Engineering (CSE) Department from their Artificial Intelligence (AI) lab, while another was accessed remotely through RunPod's platform.
 
+\[
+    \text{CER} = \frac{S + D + I}{N}
+\]
 
+\begin{itemize}
+  \item \( S \) = Number of character substitutions
+  \item \( D \) = Number of character deletions
+  \item \( I \) = Number of character insertions
+  \item \( N \) = Total number of characters in the reference (ground truth)
+\end{itemize}
 
+\[
+    \text{WER} = \frac{S + D + I}{N}
+\]
 
-
-
-
-
-
-
-
+\begin{itemize}
+  \item \( S \) = Number of word substitutions
+  \item \( D \) = Number of word deletions
+  \item \( I \) = Number of word insertions
+  \item \( N \) = Total number of words in the reference (ground truth)
+\end{itemize}
 
 
 \section{Results and Discussion}
