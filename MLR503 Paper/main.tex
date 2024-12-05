@@ -50,6 +50,20 @@
 }
 
 
+\makeatletter
+\newcounter{customsubsubsection} % Define a new counter
+\renewcommand{\subsubsection}[1]{%
+  \stepcounter{customsubsubsection}% Increment the custom counter
+  \vspace{0.5em} % Add vertical space above
+  \textit{\arabic{customsubsubsection}) #1}% Sequential numbering with italicized text
+  \vspace{0.5em} % Add vertical space below
+}
+\let\oldsubsection\subsection
+\renewcommand{\subsection}[1]{%
+  \oldsubsection{#1}% Call the original \subsection
+  \setcounter{customsubsubsection}{0}% Reset the customsubsubsection counter
+}
+\makeatother
 
 
 
