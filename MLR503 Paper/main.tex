@@ -169,8 +169,17 @@ The remainder of this paper is organized as follows: Section 2 provides the back
 \subsection{Handwritten Text Recognition}
 
 \subsubsection{Introduction to OCR and the Transition to HTR}
-Optical Character Recognition (OCR) laid the foundation for modern text recognition systems by enabling the automated extraction of text from printed documents. This field gained momentum in the 1990s \cite{parvez2013offline}, with early neural network models like LeNet \cite{lecun1998gradient} showcasing significant promise in character classification tasks. While OCR systems excelled at recognizing machine-printed text, handwritten text recognition (HTR) introduced additional complexities, such as variable writing styles, uneven spacing, and cursive connections. These challenges necessitated more advanced methodologies, evolving OCR into HTR to address the variability inherent in handwriting.
 
+
+% Optical Character Recognition (OCR) laid the foundation for modern text recognition systems by enabling the automated extraction of text from printed documents. This field gained momentum in the 1990s \cite{parvez2013offline}, with early neural network models like LeNet \cite{lecun1998gradient} showcasing significant promise in character classification tasks. While OCR systems excelled at recognizing machine-printed text, handwritten text recognition (HTR) introduced additional complexities, such as variable writing styles, uneven spacing, and cursive connections. These challenges necessitated more advanced methodologies, evolving OCR into HTR to address the variability inherent in handwriting.
+
+
+Optical Character Recognition (OCR) revolutionized text recognition by enabling the automated extraction of text from printed documents, laying the groundwork for modern systems. Early OCR systems relied heavily on accurate text localization and segmentation to isolate individual characters or lines, ensuring precise feature extraction \cite{steinherz1999comprehensive, casey1996survey}. These systems employed both micro-level features, such as character-specific edges and textures, and macro-level features, capturing broader document patterns like text alignment and spacing. Techniques such as edge-based detection (e.g., Sobel or Canny filters) \cite{canny1986computational} and statistical texture analysis quantified local properties, while keypoint descriptors like Scale-Invariant Feature Transform (SIFT) \cite{lowe2004distinctive} enhanced robustness by identifying invariant features under varying scales, rotations, or distortions.
+
+
+Despite their success in recognizing machine-printed text, OCR systems faced significant challenges when applied to handwritten text. Unlike printed text, handwriting exhibits high variability in style, uneven spacing, and cursive connections, which often overlap and lack clear boundaries \cite{plamondon2000online, steinherz1999comprehensive}. These complexities demanded more sophisticated approaches that could capture the nuanced and dynamic nature of handwriting, moving beyond the rigid assumptions of traditional OCR.
+
+The 1990s marked a pivotal era in text recognition, driven by the rise of neural network models \cite{parvez2013offline}. Innovations like LeNet \cite{lecun1998gradient} pioneered the use of convolutional layers, allowing systems to automatically learn hierarchical features directly from raw input images. This approach eliminated the reliance on handcrafted features, enabling more robust handling of variations in font styles, sizes, and distortions. With advancements in computational power, neural networks laid the groundwork for extending OCR capabilities to the more complex domain of HTR.
 
 \subsubsection{Levels of HTR}
 
@@ -182,28 +191,63 @@ In recent developments, systems also tackle paragraph- and page-level recognitio
 
 \subsubsection{Sequential Nature of Handwriting}
 
-Handwriting is inherently sequential, as characters and words are interconnected and influenced by their position within the sequence. Recognizing handwriting as a sequence involves modeling these dependencies to ensure accurate transcription. Recurrent Neural Networks (RNNs) are well-suited for this task due to their ability to model sequential dependencies through feedback loops, which allow information to persist across time steps. 
+Handwriting is inherently sequential, with characters and words influenced by their position and surrounding context within a sequence. Recognizing handwriting requires models capable of capturing these dependencies to ensure accurate transcription. Rcurrent neural networks (RNNs), introduced in \cite{rumelhart1986learning}, are particularly well-suited for this task. Their feedback loops enable information to persist across time steps, allowing them to model sequential dependencies effectively. This capability makes RNNs a natural choice for handwriting recognition, where the relationship between characters is critical.
 
+Despite their advantages, standard RNNs face significant challenges in handling long sequences due to the vanishing gradient problem \cite{bengio1994learning}. During training, the backpropagation algorithm calculates gradients to adjust network weights. In RNNs, gradients are propagated through time steps by repeated multiplication. Over long sequences, these gradients tend to shrink exponentially, often becoming too small to update the weights effectively. This issue is exacerbated by activation functions such as sigmoid or tanh, which compress their outputs into a narrow range, further diminishing the gradients.
 
-However, standard RNNs suffer from a phenomenon known as the vanishing gradient problem, particularly when dealing with long sequences. During training, neural networks use backpropagation to update weights by propagating errors from the output layer back to the input layer. In RNNs, this process involves repeatedly multiplying gradients through layers for each time step in the sequence. Over long sequences, these gradients often shrink exponentially, approaching near-zero values. This results in negligible weight updates in earlier layers, effectively preventing the network from learning long-term dependencies. This issue arises from the repeated application of activation functions, such as the sigmoid or hyperbolic tangent (tanh), which squash their outputs to a small range, further compounding the problem.
+For that, long short-term memory (LSTM) networks, introduced in \cite{hochreiter1997long}, were specifically designed to overcome the vanishing gradient problem. LSTMs introduce memory cells and gating mechanisms (input, forget, and output gates) that regulate the flow of information through the network. These mechanisms enable LSTMs to selectively retain or discard information, allowing them to maintain long-term dependencies. For example, in handwriting recognition, an LSTM can retain information about a diacritical mark, like "\artext{ضمّة}" (damma), at the beginning of a word while processing subsequent characters, ensuring accurate transcription within context.
 
-Long Short-Term Memory (LSTM) networks address the vanishing gradient problem by introducing memory cells and gating mechanisms. The input gate, forget gate, and output gate control the flow of information, selectively retaining or discarding information as needed. By doing so, LSTMs can effectively learn long-term dependencies, allowing them to process handwriting sequences more robustly. For example, an LSTM can retain information about a diacritical mark at the beginning of a word while processing its subsequent characters, ensuring contextually accurate recognition.
+Bidirectional LSTMs (BiLSTMs), introduced in \cite{schuster1997bidirectional}, extend the LSTM architecture by processing sequences in both forward and backward directions. This bidirectional processing allows the model to consider both preceding and succeeding context, making it particularly effective for cursive handwriting, where the interpretation of a character often depends on its neighbors.
 
-Bidirectional LSTMs (BiLSTMs) enhance this capability further by processing sequences in both forward and backward directions, enabling the network to consider both preceding and succeeding context. This bidirectional approach is particularly effective for cursive handwriting, where the meaning of a character often depends on its neighboring characters.
+For tasks involving 2D input data, such as handwritten line images, Multidimensional LSTM (MDLSTM) networks, introduced in \cite{graves2007multi}, further enhance sequential modeling by introducing recurrence along two spatial dimensions. This architecture captures dependencies in both horizontal and vertical directions, making it ideal for processing handwritten text. However, the computational demands of MDLSTMs have led to a shift toward hybrid models that combine Convolutional Neural Networks (CNNs) for spatial feature extraction with BiLSTMs for sequence modeling. These hybrid architectures balance accuracy and efficiency, forming the backbone of modern handwriting recognition systems.
 
-For handwriting recognition, Multidimensional Long Short-Term Memory (MDLSTM) networks extend this concept by introducing recurrence along two axes, making them effective for 2D inputs like handwritten line images. This architecture excels at extracting features from line-level text, converting 2D data into 1D sequences for transcription. However, their computational complexity has led to a shift toward hybrid models that combine the spatial feature extraction capabilities of Convolutional Neural Networks (CNNs) with the sequential modeling strengths of RNNs or BiLSTMs. These hybrid architectures strike a balance between accuracy and efficiency, allowing modern systems to handle the complexities of cursive handwriting.
 
 
 \subsubsection{CTC Loss and Decoding}
 
-A key component in modern HTR systems is the use of Connectionist Temporal Classification (CTC) as a loss function and decoding mechanism. CTC is particularly suited for sequence-to-sequence tasks, such as HTR, where the input (image features) and output (character transcription) lengths do not match. CTC introduces a special "blank" token that allows the model to handle gaps in alignment, enabling end-to-end training without requiring pre-segmented data.
 
-During training, the model outputs a sequence of probability distributions for each time step using a SoftMax function, where each distribution represents the likelihood of all possible characters (and the blank token) at that step. The loss function sums over all possible alignments between the input and output sequences, allowing the model to learn the most probable transcription. For decoding, CTC employs strategies such as greedy decoding, which selects the character with the highest probability at each step, or beam search decoding, which considers multiple candidate sequences to improve accuracy. The use of CTC has been transformative in modern HTR systems, enabling robust transcription of variable-length sequences.
+
+A key component in modern HTR systems is the use of Connectionist Temporal Classification (CTC) as a loss function and decoding mechanism. Introduced by Graves et al. \cite{graves2006connectionist}, CTC enables sequence-to-sequence learning when the input (e.g., image features) and output (e.g., character sequences) lengths differ. It allows models to align variable-length inputs and outputs without requiring pre-segmented data, a significant challenge in HTR.
+
+CTC introduces a special "blank" token ("\(- \)") to handle gaps in alignment, letting the model represent transitions between characters or accommodate uneven spacing and cursive connections. This design is ideal for HTR, where the input sequence often exceeds the target transcription in length and characters may not align neatly to time steps.
+
+CTC computes the conditional probability of a target transcription \( l \) given the model’s output \( Y \), which consists of \( T \) time steps. Each step \( y_t \) is a probability distribution over all possible characters, including the blank token. The conditional probability \( p(l|Y) \) is defined in Equation~\ref{eq:ctc-prob} as:
+
+\begin{equation}
+  p(l|Y) = \sum_{\pi : M(\pi) = l} p(\pi|Y), 
+  \label{eq:ctc-prob}
+  \end{equation}
+
+where \( \pi \) represents all possible alignments of \( Y \) that map to \( l \), and \( M(\pi) \) removes repeated characters and blanks from \( \pi \). For example, "\( -- \)\artext{للل}\(--\)\artext{اااا}\( -- \)\artext{ث}--\artext{مم}-" gets aligned to the target "\artext{مثال}". The sequence output is the probability of \( \pi \) at time step \( t \), which is defined in Equation~\ref{eq:alignment-prob} as:
+
+
+\begin{equation}
+  p(\pi|Y) = \prod_{t=1}^T y^{t}_{\pi_t}, 
+  \label{eq:alignment-prob}
+  \end{equation}
+
+where \( y^{t}_{\pi_t} \) is the output probability of the character \( \pi_t \) at time step \( t \), as described in \cite{shi2016endtoend}. This formula accounts for the cumulative probability of the alignment \( \pi \) across all time steps.
+
+
+The CTC loss function, shown in Equation~\ref{eq:ctc-loss}, sums over all possible alignments \( \pi \) that produce the target sequence \( l \). It is efficiently computed using a dynamic programming approach, which calculates the forward and backward paths:
+
+\begin{equation}
+  \mathcal{L}_{CTC} = -\log \sum_{\pi : M(\pi) = l} \prod_{t=1}^T y^{t}_{\pi_t}.
+  \label{eq:ctc-loss}
+  \end{equation}
+
+Furthermore, CTC decoding converts the probabilistic output \( Y \) into a transcription through two main strategies: (1) greedy decoding and (2) beam search decoding. On the one hand, greedy decoding selects the character with the highest probability at each time step. While fast and computationally efficient \cite{graves2006connectionist}, it often ignores global dependencies, leading to suboptimal results in complex handwriting or ambiguous cases. On the other hand, beam search decoding improves accuracy by maintaining multiple candidate transcriptions (the "beam") and evaluating their overall probabilities. This method captures context more effectively and is particularly advantageous for cursive or highly variable handwriting, as highlighted in \cite{praneetha2023handwritten, shi2016endtoend}.
+
+
+CTC transforms HTR by allowing models to learn temporal alignments directly from data, avoiding the need for explicit segmentation. 
 
 \subsubsection{Deep Learning Advancements in HTR}
 
-Recent advancements in deep learning have introduced attention-based models and Transformers, which have further revolutionized HTR. Unlike RNNs, Transformers dynamically focus on specific regions of an input image while capturing long-range dependencies across the sequence. This ability to simultaneously process all positions in a sequence and emphasize important regions has resulted in significant improvements in both accuracy and generalizability. By integrating these advancements, modern HTR systems have achieved state-of-the-art performance, particularly for complex and diverse handwriting styles.
+Recent advancements in deep learning, particularly attention-based models and transformers, have revolutionized HTR. Unlike RNNs, which process sequences step by step, transformers analyze an entire input sequence simultaneously, capturing long-range dependencies while dynamically focusing on specific regions of the input image. This architecture, introduced in \cite{vaswani2017attention}, has fundamentally changed how sequential data is processed in deep learning.
 
+A helpful analogy is how humans read text. Instead of scanning every letter in a linear fashion, we focus more on unclear or important areas while using surrounding context to fill in gaps. Similarly, transformers use attention mechanisms to emphasize ambiguous or complex sections of handwriting while retaining global context. For example, if a character in the word "\artext{مثال}" (example) is unclear, the transformer can reference the rest of the word to infer its correct identity.
+
+This dynamic attention mechanism enables modern HTR systems to excel with diverse handwriting styles, from cursive to decorative scripts, by adapting to stylistic variations and spatial irregularities. Transformers’ ability to process sequences holistically has set new benchmarks in accuracy and generalizability, making them integral to state-of-the-art HTR systems.
 
 
 \subsection{Characteristics of Arabic Handwriting}
@@ -212,7 +256,7 @@ Arabic handwriting possesses several distinctive features that present unique ch
 
 \subsubsection{Character Level Characteristics}
 
-The Arabic alphabet comprises 28 primary characters, each of which does not have distinct uppercase or lowercase forms. Instead, each character can adopt two to four different shapes depending on its position within a word: isolated, initial, medial, or final. Consequently, the 28 Arabic letters are represented by 84 distinct forms. Table~\ref{table:arabic_characters} illustrates the Arabic letters in their four positional forms, detailing the letter order in the Arabic alphabet, pronunciation, and the various shapes each letter assumes based on its placement within a word. Notably, separating characters, such as "\artext{ا}" (Alif) and "\artext{ر}" (Raa), have only two forms: isolated and final.
+The Arabic alphabet comprises 28 primary characters, each of which does not have distinct uppercase or lowercase forms. Instead, each character can adopt two to four different shapes depending on its position within a word: isolated, initial, medial, or final \cite{alrobah2022arabic}. Consequently, the 28 Arabic letters are represented by 84 distinct forms. Table~\ref{table:arabic_characters} illustrates the Arabic letters in their four positional forms, detailing the letter order in the Arabic alphabet, pronunciation, and the various shapes each letter assumes based on its placement within a word. Notably, separating characters, such as "\artext{ا}" (Alif) and "\artext{ر}" (Raa), have only two forms: isolated and final.
 
 \begin{table*}[ht]
   \renewcommand{\arraystretch}{1.5}
@@ -279,19 +323,19 @@ Dots are integral components of Arabic letters, playing a crucial role in distin
 
 \subsubsection{Hamzah: A Special Character}
 
-The hamzah "\artext{ء}" is a unique character in the Arabic script that can function as a primary character or as a subcomponent integrated within other primary characters. For example, the hamzah appears as a standalone character in words like "\artext{سماء}" (samā’, meaning sky) and "\artext{هواء}" (hawā’, meaning air). Additionally, the hamzah can be incorporated within other letters, such as "\artext{ك}", "\artext{أ}", "\artext{ئ}", "\artext{ؤ}", and "\artext{إ}". Moreover, the placement of the hamzah, whether above, below, or within a letter, determines its pronunciation and role within different word contexts.
+The hamzah "\artext{ء}" is a unique character in the Arabic script that can function as a primary character or as a subcomponent integrated within other primary characters \cite{ahmed2020offline}. For example, the hamzah appears as a standalone character in words like "\artext{سماء}" (samā’, meaning sky) and "\artext{هواء}" (hawā’, meaning air). Additionally, the hamzah can be incorporated within other letters, such as "\artext{ك}", "\artext{أ}", "\artext{ئ}", "\artext{ؤ}", and "\artext{إ}". Moreover, the placement of the hamzah, whether above, below, or within a letter, determines its pronunciation and role within different word contexts.
 
 \subsubsection{ Diacritics: Tashkeel and Tanween}
 
-"\artext{التشكيل}" (tashkeel), also known as "\artext{حركات}" (harakat), and "\artext{التنوين}" (tanween) are diacritical marks used in Arabic to indicate pronunciation and grammatical nuances.  Tashkeel consists of five symbols that modify the meaning and pronunciation of words. For example, the words "\artext{عِلْم}" (ilm, meaning knowledge) and "\artext{عَلَم}" (alam, meaning flag) share the same base characters but differ in their Tashkeel, altering their meanings significantly. Although Tashkeel is not extensively used in everyday Arabic writing, since context often clarifies meaning, it is essential for novice readers and in educational materials. Tashkeel can change the semantic interpretation of words, making its accurate recognition (if present) vital for preserving textual integrity.
+"\artext{التشكيل}" (tashkeel), also known as "\artext{حركات}" (harakat), and "\artext{التنوين}" (tanween) are diacritical marks used in Arabic to indicate pronunciation and grammatical nuances \cite{eltay2020exploring}.  Tashkeel consists of five symbols that modify the meaning and pronunciation of words. For example, the words "\artext{عِلْم}" (ilm, meaning knowledge) and "\artext{عَلَم}" (alam, meaning flag) share the same base characters but differ in their Tashkeel, altering their meanings significantly. Although Tashkeel is not extensively used in everyday Arabic writing, since context often clarifies meaning, it is essential for novice readers and in educational materials. Tashkeel can change the semantic interpretation of words, making its accurate recognition (if present) vital for preserving textual integrity.
 
 \subsubsection{Cursive Nature and Baseline Structure}
-Arabic is inherently a cursive script in both its printed and handwritten forms, meaning that letters within words are connected by a horizontal line known as the baseline. Portions of characters that extend below the baseline are referred to as "descenders," while those that extend above are termed "ascenders." Figure~\ref{fig:ab} depicts the baseline with ascenders and descenders, highlighting how these elements contribute to the overall structure and flow of Arabic handwriting. This cursive connectivity facilitates fluid writing but complicates the recognition process, as it introduces variability in letter shapes and spacing.
+Arabic is inherently a cursive script in both its printed and handwritten forms, meaning that letters within words are connected by a horizontal line known as the baseline \cite{alrobah2022arabic}. Portions of characters that extend below the baseline are referred to as "descenders," while those that extend above are termed "ascenders." Figure~\ref{fig:ab} depicts the baseline with ascenders and descenders, highlighting how these elements contribute to the overall structure and flow of Arabic handwriting. This cursive connectivity facilitates fluid writing but complicates the recognition process, as it introduces variability in letter shapes and spacing.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\linewidth]{Figs/fig2.png}
-  \caption{some good caption.}
+  \caption{Illustration of the baseline, ascenders, and descenders in the Arabic phrase "\artext{الخليج العربي}" (The Arabian Gulf).}
   \label{fig:ab}
 \end{figure}
 
@@ -331,7 +375,7 @@ In handwritten Arabic, PAWs may exhibit vertical overlapping, where characters w
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\linewidth]{Figs/fig3.png}
-  \caption{Vertical Overlapping between 2 PAWs in the same word.}
+  \caption{Vertical overlapping between two PAWs occurring twice within the same handwritten word.}
   \label{fig:vo}
 \end{figure}
 
@@ -343,55 +387,33 @@ The recognition of Arabic handwritten text poses unique challenges due to the in
 
 \subsubsection{High Variability in Handwriting Styles}
 
-Arabic handwriting exhibits a significant degree of variability, making it one of the most challenging scripts to process. Unlike many other scripts, Arabic handwriting allows for a broad range of stylistic diversity that is still considered acceptable. Individual differences in stroke thickness, letter spacing, slant, and elongation further contribute to the variation in handwritten forms. These stylistic differences are not arbitrary; they are often influenced by cultural and regional preferences. For example, traditional calligraphic styles such as "\artext{النسخ}" (Naskh), "\artext{الرقعة}" (Ruq’ah), and "\artext{الكوفي}" (Kufi) have distinct proportions and connections, which can manifest even in casual handwriting. Figure ~\ref{fig:mr}  illustrates examples of handwritten Arabic, showcasing the variability across different writers and styles.
+Arabic handwriting exhibits a significant degree of variability, making it one of the most challenging scripts to process \cite{kasem2023advancements}. Unlike many other scripts, Arabic handwriting allows for a broad range of stylistic diversity that is still considered acceptable. Individual differences in stroke thickness, letter spacing, slant, and elongation further contribute to the variation in handwritten forms. These stylistic differences are not arbitrary; they are often influenced by cultural and regional preferences. For example, traditional calligraphic styles such as "\artext{النسخ}" (Naskh), "\artext{الرقعة}" (Ruq’ah), and "\artext{الكوفي}" (Kufi) have distinct proportions and connections, which can manifest even in casual handwriting. Figure ~\ref{fig:mr}  illustrates examples of handwritten Arabic, showcasing the variability across different writers and styles.
 
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\linewidth]{Figs/fig4.png}
-  \caption{Vertical Overlapping between 2 PAWs in the same word.}
+  \caption{Handwritten Arabic words from the KHATT dataset: (a) \artext{دراق} (Duraq, 'plum') and (b) \artext{مشمش} (Mishmish, 'apricot'), showcasing variability in letters like \artext{ش}, \artext{م}, \artext{د}, \artext{ر}, and \artext{ق} across writers.}
   \label{fig:mr}
 \end{figure}
 
-Additionally, Arabic handwriting is not restricted to a single standardized form. Variants of Modern Standard Arabic (MSA) often appear in handwritten texts, including informal adaptations and regional orthographic practices. Although HTR systems are not tasked with interpreting dialects or regional meanings, the visual form of these handwritten variants—such as alternative spellings or elongated structures—introduces challenges in character recognition. This vast variability complicates segmentation and encoding, where traditional OCR systems fail due to their reliance on rigid, rule-based approaches. Unlike scripts with default spaces between characters, Arabic’s cursive nature creates continuous connections between letters, making segmentation into discrete units a formidable task. \\
+Additionally, Arabic handwriting is not restricted to a single standardized form. Variants of Modern Standard Arabic (MSA) often appear in handwritten texts, including informal adaptations and regional orthographic practices. Although HTR systems are not tasked with interpreting dialects or regional meanings, the visual form of these handwritten variants, such as alternative spellings or elongated structures, introduces challenges in character recognition. This vast variability complicates segmentation and encoding, where traditional OCR systems fail due to their reliance on rigid, rule-based approaches. Unlike scripts with default spaces between characters, Arabic’s cursive nature creates continuous connections between letters, making segmentation into discrete units a formidable task. \\
 
-
-///might end up removing, lets seee.
-
-
-%%%%%%%%%NEED TO UN-GPT THIS%%%%%%%%%%
 
 \subsubsection{Right-to-Left Directionality and Structural Bias}
 
 
-The right-to-left (RTL) directionality of Arabic script introduces significant challenges for handwritten text recognition (HTR) systems, which are predominantly designed for left-to-right (LTR) languages. This fundamental difference impacts multiple aspects of HTR, including preprocessing, feature extraction, and sequence modeling, and requires specific adaptations to ensure that the system can effectively process Arabic text.
-
-In Arabic, text begins at the top-right and flows toward the left, a structure that conflicts with the assumptions underlying most LTR-oriented algorithms. This discrepancy is particularly evident in preprocessing tasks, such as baseline detection and text alignment. For instance, the baseline of Arabic text is often affected by dynamic interactions between ascenders (e.g., "\artext{ط}") and descenders (e.g., "\artext{ي}"), which are more pronounced in cursive handwritten styles. Traditional baseline detection methods, which assume a uniform LTR structure, often misalign Arabic text, leading to errors in segmentation and recognition.
+The right-to-left (RTL) directionality of Arabic script presents significant challenges for handwritten text recognition (HTR) systems, which are predominantly designed for left-to-right (LTR) languages \cite{abdulmuttalib2021rtl}. This fundamental difference impacts multiple aspects of HTR, including preprocessing, feature extraction, and sequence modeling, necessitating specific adaptations to ensure effective processing of Arabic text.
 
 
-Convolutional Neural Networks (CNNs), a cornerstone of modern HTR systems, exacerbate these challenges with their sliding window mechanism. CNNs typically extract features by moving a kernel across the image from left to right. While effective for LTR scripts, this process introduces a structural bias when applied to Arabic text. Since Arabic handwriting flows from right to left, the CNN begins processing at the visual end of the word and progresses toward its beginning, disrupting the natural progression of contextual features. This mismatch results in suboptimal recognition of connected letters and diacritics, which are essential for accurate Arabic text recognition.
-
-A commonly used workaround is to flip the input image horizontally, making the Arabic text visually appear as if it flows from left to right. While this enables LTR-designed systems to process the text more effectively, it introduces new challenges. Horizontal flipping can distort spatial relationships, particularly for diacritics or overlapping characters, and fails to address the inherent biases in the model architecture. For example, flipped input does not resolve issues in sequence alignment, where the reversed order may still impact downstream tasks like decoding.
-
-In sequence modeling architectures, such as Recurrent Neural Networks (RNNs) and Transformers, RTL directionality creates additional challenges. RNNs, which process sequences step-by-step, are particularly sensitive to input order. A model trained on LTR text encounters Arabic text in reverse, handling the end of the sequence first and losing the natural semantic flow. Transformers, although more flexible due to their self-attention mechanisms, face similar problems. Positional encodings in pretrained Transformer models are often designed for LTR scripts, and their application to RTL text misaligns attention distributions, reducing the model’s ability to accurately weight the importance of characters at the beginning of words.
-
-Addressing these biases requires architectural and algorithmic adaptations. For CNNs, designing RTL-compatible sliding window mechanisms that traverse the image in the correct direction aligns feature extraction with the natural flow of Arabic text. Similarly, retraining RNNs and Transformers with RTL-specific positional encodings or bidirectional capabilities helps to preserve the contextual integrity of Arabic handwriting. While preprocessing techniques such as horizontal flipping offer a temporary fix, they are insufficient for addressing the deeper structural challenges posed by RTL scripts. Robust adaptations at the model level are essential for achieving accurate and reliable recognition of Arabic handwritten text.
+Arabic text flows from the top-right to the left, a structure that conflicts with the design assumptions underlying most LTR-oriented algorithms. This discrepancy is especially evident in preprocessing tasks, such as baseline detection and text alignment. In Arabic handwriting, the baseline is often influenced by interactions between ascenders (e.g., "\artext{ط}") and descenders (e.g., "\artext{ي}"), which are more prominent in cursive styles. Traditional baseline detection methods, typically designed for LTR languages, often fail to account for these interactions, leading to errors in segmentation and recognition \cite{khattab2019arabic}. Such misalignments not only distort spatial positioning but also propagate errors through subsequent processing stages.
 
 
-\subsubsection{Dataset Limitations}
+Convolutional Neural Networks (CNNs), widely used in modern HTR systems, exacerbate these challenges due to their sliding window mechanism. CNNs extract features by moving a kernel across an image from left to right \cite{lecun1998gradient}. While this design is effective for LTR scripts, it introduces a structural bias when applied to Arabic handwriting. In this case, the CNN begins processing at the visual end of a word and progresses toward its beginning, disrupting the natural contextual flow. This misalignment particularly affects connected letters and diacritics, both of which are critical for accurate recognition of Arabic text.
 
-The scarcity of high-quality, diverse datasets is one of the most significant obstacles to advancing Arabic HTR systems. While several datasets have been developed, such as KHATT and IFN/ENIT, they often fail to encompass the full spectrum of Arabic handwriting styles and scenarios. These datasets are typically limited in terms of writer demographics, regional variations, and text complexity. Moreover, many existing corpora focus exclusively on Modern Standard Arabic (MSA), excluding handwritten texts that exhibit informal, decorative, or application-specific features.
+One common workaround is to horizontally flip the input image, effectively reversing the text flow to make it appear left-to-right \cite{saeed2024muharaf, chan2024hatformer}. While this approach enables LTR-designed systems to process Arabic text more effectively, it introduces its own set of problems. Flipping the text can distort spatial relationships, particularly for overlapping characters or diacritics, and fails to address the inherent architectural bias in the CNN. Although flipped input aligns the image for feature extraction, it does not resolve sequence alignment issues during decoding, where the reversed order can still affect performance.
 
-Another pressing issue is the size and annotation quality of available datasets. Compared to resources for widely studied languages like English, Arabic handwriting datasets are smaller in scale and less diverse. Annotated data for complex elements, such as diacritics, overlapping characters, or noisy inputs, remain particularly sparse. These deficiencies hinder the ability of HTR systems to generalize effectively across different writing styles and real-world applications. The creation of larger, more representative datasets with comprehensive annotations is essential for addressing these limitations and supporting the training of advanced HTR models.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
+Sequence modeling architectures, such as RNNs and transformers, encounter additional challenges with RTL directionality. RNNs process sequences step-by-step, making them sensitive to the order of input data. When trained on LTR sequences, an RNN processes Arabic text in reverse, beginning at the end of a word or sentence and losing the natural semantic flow required for contextual understanding \cite{chan2024hatformer}. Although transformers are more flexible due to their self-attention mechanisms, they face similar problems. Positional encodings in pretrained transformer models are typically designed for LTR scripts. Applying these encodings to Arabic text misaligns attention distributions, reducing the model’s ability to accurately focus on the initial characters in a sequence.
 
 
 \section{Related Work}
