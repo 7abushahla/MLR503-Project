@@ -675,7 +675,7 @@ To address this, each custom layer was implemented to fully support model serial
   \label{tab:test_results}
   \begin{tabular}{lllll}
   \toprule
-     Metric &                Mean No KenLM (Std) &      Mean 2-gram KenLM (Std) &      Mean 3-gram KenLM (Std) &                 Mean 4-gram KenLM (Std) \\
+     Metric &                Mean No KenLM - Baseline (Std) &      Mean 2-gram KenLM (Std) &      Mean 3-gram KenLM (Std) &                 Mean 4-gram KenLM (Std) \\
   \midrule
   Test Loss & 182.699 (3.016) &                            - &                            - &                                       - \\
         CER &               1.894 (0.121) &               0.903 (0.0421) &              0.903 (0.0418) &                      0.903 (0.0417) \\
@@ -685,6 +685,8 @@ To address this, each custom layer was implemented to fully support model serial
 \end{table*}
 
 We assessed our models using the evaluation metrics averaged across both seeds: 42 and 503 as shown in Table~\ref{tab:test_results}. For this analysis, we only consider the evaluation on the unseen test data. The evaluations on the training and validations sets across both seeds can be found in the Appendix *INSERT TABLES HERE* for further information about the model's performance throughout training.
+
+\subsubsection{Main Results}
 
 \section{Conclusions and Future Work}
 
