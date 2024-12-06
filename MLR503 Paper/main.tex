@@ -858,13 +858,9 @@ Once we integrated KenLM during the decoding stage, our CER and WER metrics impr
 
 The performance improvements obtained by using KenLM are not only substantial but also consistent. The low standard deviation values for both CER and WER after integrating KenLM indicate that the improvements are stable across both runs. This consistency is important for practical applications, suggesting that the approach does not rely on favorable splits, for example. Instead, combining the model with KenLM can result in better generalizations and reliably reduce error rates.
 
-<<<<<<< Updated upstream
-\subsubsection{Comparison of Different n-gram Orders in KenLM} 
+\subsubsection{Comparison of Different n-gram Orders in KenLM}
 
-To investigate the effect of capturing more extensive contextual dependencies, we experimented with 2-gram, 3-gram, and 4-gram KenLM models. Surprisingly, the results for CER and WER remained statistically similar across these different n-gram orders. For instance, the CER consistently hovered around 0.903 irrespective of whether a 2-gram, 3-gram, or 4-gram model was employed. Similarly, the WER remained approximately 0.998 across all three configurations.
-=======
-\subsubsection{Comparison of Different n-gram Orders in KenLM} To investigate the effect of capturing more extensive contextual dependencies, we experimented with 2-gram, 3-gram, and 4-gram KenLM models. Surprisingly, the results for CER and WER remained statistically similar across these different n-gram orders. For instance, the CER consistently hovered around 0.903 irrespective of whether a 2-gram, 3-gram, or 4-gram model was employed. Similarly, the WER remained at approximately 0.998 across all three configurations.
->>>>>>> Stashed changes
+To investigate the effect of capturing more extensive contextual dependencies, we experimented with 2-gram, 3-gram, and 4-gram KenLM models. Surprisingly, the results for CER and WER remained statistically similar across these different n-gram orders. For instance, the CER consistently hovered around 0.903 irrespective of whether a 2-gram, 3-gram, or 4-gram model was employed. Similarly, the WER remained at approximately 0.998 across all three configurations.
 
 This observation suggests that increasing the context window beyond bigrams yields minimal measurable improvements within our specific setup. However, this may instead be explained by the subpar models produced during training, even if these are our best-validated models. The bottleneck in performance might lie in the feature extractor or the sequential handling of the feature maps. Therefore, it is important to acknowledge that the effectiveness of the KenLM n-gram models is inherently tied to the performance of the underlying neural network. That is, the neural network's performance severely constrains the benefits of integrating KenLM as a post-processor in an OCR task.
 
