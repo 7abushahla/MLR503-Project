@@ -520,11 +520,8 @@ In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa202
 
 
 
-
-
-
 \section{Methodology}
-In this section, we detail the steps we took to reproduce the results of *INSERT PAPER WE ARE REPRODUCING HERE*. We discuss the data preparation, model architecture, training strategies, and the evaluation metrics to assess our model for robustness and reproducibility.
+In this section, we detail the steps we took to reproduce the results of \cite{mutawa2024machine}. We discuss the data preparation, model architecture, training strategies, and the evaluation metrics to assess our model for robustness and reproducibility.
 
 
 \subsection{Data Preparation and Preprocessing}
@@ -671,8 +668,23 @@ A key challenge we encountered during experimentation involved the capability of
 To address this, each custom layer was implemented to fully support model serialization and deserialization. The \begin{small}\texttt{get\_config()}\end{small} method was used to store initialization parameters, ensuring the proper reconstruction of the CTC layer’s configurations. Furthermore, the \begin{small}\texttt{@tf.keras.utils.register\_keras\_serializable()}\end{small} decorator was employed to make the layer compatible with TensorFlow’s saving and loading mechanisms. The \texttt{call()} method defined the forward pass logic, ensuring consistency during both training and inference. By following these practices, the custom layer was seamlessly integrated into the TensorFlow workflow, enabling efficient experimentation and potential deployment across various setups.
 
 \subsection{Main Results}
-We assessed our models using the evaluation metrics averaged across both seeds: 42 and 503 as shown in *INSERT TABLE HERE*. For this analysis, we only consider the evaluation on the unseen test data. The evaluations on the training and validations sets across both seeds can be found in the Appendix *INSERT TABLES HERE* for further information about the model's performance throughout training.
 
+\begin{table*}[t]
+  \centering
+  \caption{Test Results: Loss, CER, and WER}
+  \label{tab:test_results}
+  \begin{tabular}{lllll}
+  \toprule
+     Metric &                Mean No KenLM (Std) &      Mean 2-gram KenLM (Std) &      Mean 3-gram KenLM (Std) &                 Mean 4-gram KenLM (Std) \\
+  \midrule
+  Test Loss & 182.699 (3.016) &                            - &                            - &                                       - \\
+        CER &               1.894 (0.121) &               0.903 (0.0421) &              0.903 (0.0418) &                      0.903 (0.0417) \\
+        WER &            2.543 (0.196) & 0.998 (0.00170) & 0.998 (0.00245) & 0.998 (0.00255) \\
+  \bottomrule
+  \end{tabular}
+\end{table*}
+
+We assessed our models using the evaluation metrics averaged across both seeds: 42 and 503 as shown in Table~\ref{tab:test_results}. For this analysis, we only consider the evaluation on the unseen test data. The evaluations on the training and validations sets across both seeds can be found in the Appendix *INSERT TABLES HERE* for further information about the model's performance throughout training.
 
 \section{Conclusions and Future Work}
 
