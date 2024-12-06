@@ -43,14 +43,6 @@
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 
 \makeatletter
-\newcommand{\linebreakand}{%
-  \end{@IEEEauthorhalign}
-  \hfill\mbox{}\par
-  \mbox{}\hfill\begin{@IEEEauthorhalign}
-}
-
-
-\makeatletter
 \newcounter{customsubsubsection} % Define a new counter
 \renewcommand{\subsubsection}[1]{%
   \stepcounter{customsubsubsection}% Increment the custom counter
@@ -64,6 +56,13 @@
   \setcounter{customsubsubsection}{0}% Reset the customsubsubsection counter
 }
 \makeatother
+
+\makeatletter
+\newcommand{\linebreakand}{%
+  \end{@IEEEauthorhalign}
+  \hfill\mbox{}\par
+  \mbox{}\hfill\begin{@IEEEauthorhalign}
+}
 
 
 
@@ -495,20 +494,18 @@ There have been multiple variations of CNNs developed to tackle a number of data
 
 Another common approach involves combining CNNs with other classifiers, such as Support Vector Machines (SVMs), to enhance recognition accuracy. For instance, Elleuch et al. \cite{elleuch2016new} utilized a combination of CNN and SVM with dropout regularization to recognize offline Arabic handwritten characters, achieving error classification rates of 5.83\% on the Handwritten Arabic Characters Database (HACDB) and 7.05\% on the IFN/ENIT dataset.
 
-RNNs, particularly BiLSTM networks, have also been integrated with CNNs to capture sequential dependencies in handwriting. For example, Jemni et al \cite{jemni2017arabic} proposed an Arabic HTR based on multiple BiLSTM-CTC combinations. They employed two feature extraction techniques: (1) segment-based features and (2) Distribution-Concavity (DC)-based features. These features were trained on different levels of the BiLSTM-CTC combinations, including low-level fusion, mid-level combination methods, and high-level fusion. Experiments on the KHATT dataset demonstrated that high-level fusion yielded a word error rate (WER) of 29.13\% and a character error rate (CER) of 16.27\%.
+RNNs, particularly BiLSTM networks, have also been integrated with CNNs to capture sequential dependencies in handwriting. For example, Jemni et al \cite{jemni2018offline} proposed an Arabic HTR based on multiple BiLSTM-CTC combinations. They employed two feature extraction techniques: (1) segment-based features and (2) Distribution-Concavity (DC)-based features. These features were trained on different levels of the BiLSTM-CTC combinations, including low-level fusion, mid-level combination methods, and high-level fusion. Experiments on the KHATT dataset demonstrated that high-level fusion yielded a word error rate (WER) of 29.13\% and a character error rate (CER) of 16.27\%.
 
-Sliding window techniques have also been explored for feature extraction in Arabic HTR. Stahlberg and Vogel \cite{stahlberg2017} proposed a recognition system using a sliding window approach with a window width of 3 pixels and an overlap of 2 pixels. They extracted pixel-based features from raw grayscale values and segment-based features such as centroid and height. Utilizing the Kaldi toolkit for classification, their method achieved a WER of 30.5\% on the HACDB dataset.
+Sliding window techniques have also been explored for feature extraction in Arabic HTR. Stahlberg and Vogel \cite{stahlberg2015qcri} proposed a recognition system using a sliding window approach with a window width of 3 pixels and an overlap of 2 pixels. They extracted pixel-based features from raw grayscale values and segment-based features such as centroid and height. Utilizing the Kaldi toolkit for classification, their method achieved a WER of 30.5\% on the HACDB dataset.
 
-Moreover, BenZeghiba et al. \cite{benzeghiba2018hybrid} developed a hybrid Hidden Markov Model (HMM) and Artificial Neural Network (ANN) framework to recognize Arabic handwritten text. Their system utilized MDLSTMs to extract pixel values by scanning text line images in four directions. During training, CTC was used, and the Viterbi algorithm served as the decoding strategy to generate the best hypothesis of a character sequence. Incorporating a hybrid language model that included words and PAWs, the system achieved a WER of 33\% on the KHATT dataset.
+Moreover, BenZeghiba et al. \cite{benzeghiba2015hybrid} developed a hybrid Hidden Markov Model (HMM) and Artificial Neural Network (ANN) framework to recognize Arabic handwritten text. Their system utilized MDLSTMs to extract pixel values by scanning text line images in four directions. During training, CTC was used, and the Viterbi algorithm served as the decoding strategy to generate the best hypothesis of a character sequence. Incorporating a hybrid language model that included words and PAWs, the system achieved a WER of 33\% on the KHATT dataset.
 
 Data augmentation and normalization techniques have also been explored to enhance the robustness of HTR systems. Wigington et al. \cite{wigington2020} introduced a novel profile normalization strategy for both word and line images, alongside augmenting existing text images using random perturbations on a regular grid. These techniques, combined with a CNN-LSTM architecture, improved handwriting text recognition, particularly for datasets with diverse handwriting styles. Recognizing the distinct characteristics of children's handwriting, Altwaijry et al. \cite{altwaijry2021arabic} trained their models on children's handwriting samples to address variations unique to younger writers.
 
 
-Recent advancements have focused on leveraging various CNN architectures to tackle the specific challenges of Arabic script, such as cursive writing and diacritical markings. Khayati et al. \cite{khayati2021} emphasized the development and efficiency of several CNN architectures in addressing these challenges. Additionally, Berriche et al. \cite{berriche2024hybrid} developed a CNN-graph theory method for segmenting linked and overlapping cursive Arabic letters, significantly improving character identification accuracy. In another study, AlShehri et al. \cite{alshehri2022} introduced DeepAHR, a deep neural network designed for Arabic handwritten recognition, which demonstrated enhanced feature extraction and recognition capabilities, outperforming previous models in both accuracy and processing speed.
+Recent advancements have focused on leveraging various CNN architectures to tackle the specific challenges of Arabic script, such as cursive writing and diacritical markings. Khayati et al. \cite{khayati2021} emphasized the development and efficiency of several CNN architectures in addressing these challenges. Additionally, Berriche et al. \cite{berriche2024hybrid} developed a CNN-graph theory method for segmenting linked and overlapping cursive Arabic letters, significantly improving character identification accuracy. In another study, AlShehri et al. \cite{alshehri2024deepahr} introduced DeepAHR, a deep neural network designed for Arabic handwritten recognition, which demonstrated enhanced feature extraction and recognition capabilities, outperforming previous models in both accuracy and processing speed.
 
-Furthermore, pretrained CNN models such as VGG \cite{}, ResNet \cite{}, and Inception \cite{} have been adapted for Arabic HTR. For example, Alghyaline et al. \cite{alghyaline2023} evaluated these models on datasets like Hijja, the Arabic Handwritten Character Dataset (AHCD), and the AlexU Isolated Alphabet (AIA9K), achieving accuracies of 93.05\%, 98.30\%, and 96.88\% respectively using the VGG model. Transformer-based architectures have also been explored, with Momeni and BabaAli \cite{momeni2023} employing transformer transducers and cross-attention mechanisms on the KHATT dataset, resulting in a CER of 18.45\%.
-
-
+Furthermore, pretrained CNN models such as VGG \cite{}, ResNet \cite{}, and Inception \cite{} have been adapted for Arabic HTR. For example, Alghyaline et al. \cite{alghyalineoptimised} evaluated these models on datasets like Hijja, the Arabic Handwritten Character Dataset (AHCD), and the AlexU Isolated Alphabet (AIA9K), achieving accuracies of 93.05\%, 98.30\%, and 96.88\% respectively using the VGG model. Transformer-based architectures have also been explored, with Momeni et al. \cite{momeni2024transformer} employing transformer transducers and cross-attention mechanisms on the KHATT dataset, resulting in a CER of 18.45\%.
 
 
 More recently, a new dataset, Muharaf, was released by  Saeed et al. \cite{saeed2024muharaf}, and they conducted page-level HTR on it using a combination of three CNN-based models: the Start of Line (SOL) Network, the Line Follower (LF) Network, and the Handwriting Recognition (HW) Network. The SOL Network is a CNN designed to detect the starting coordinates of each text line in a page image. The LF Network, another CNN, tracks the trajectory of text lines by iteratively predicting the next coordinates and orientation. The HW Network is a CNN–BiLSTM model trained with CTC loss for end-to-end text recognition, which was also employed for line-level HTR. Using the Muharaf dataset, their system achieved a CER of 0.157 and a WER of 0.398. Additionally, they tested their architecture on other datasets, obtaining a CER of 14.1\% on KHATT and 5.5\% on MADCAT.
@@ -527,7 +524,7 @@ In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa202
   \hline
   \textbf{Reference} & \textbf{Year} & \textbf{Dataset} & \textbf{Architecture} & \textbf{Performance} \\ \hline
   
-  Stahlberg and Vogel \cite{stahlberg2017} & 2015 & 
+  Stahlberg and Vogel \cite{stahlberg2015qcri} & 2015 & 
   \begin{tabular}[c]{@{}l@{}}
   HACDB \\
   IFN/ENIT
@@ -539,7 +536,7 @@ In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa202
   \end{tabular} 
   \\ \hline
   
-  BenZeghiba et al. \cite{benzeghiba2018hybrid} & 2015 & 
+  BenZeghiba et al. \cite{benzeghiba2015hybrid} & 2015 & 
   \begin{tabular}[c]{@{}l@{}}
   KHATT \\
   Maurdor
@@ -563,7 +560,7 @@ In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa202
   \end{tabular} 
   \\ \hline
   
-  Jemni et al. \cite{jemni2017arabic} & 2018 & 
+  Jemni et al. \cite{jemni2018offline} & 2018 & 
   \begin{tabular}[c]{@{}l@{}}
   KHATT
   \end{tabular} 
@@ -596,7 +593,7 @@ In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa202
   \end{tabular} 
   \\ \hline
   
-  Momeni et al. \cite{momeni2023} & 2023 & 
+  Momeni et al. \cite{momeni2024transformer} & 2023 & 
   \begin{tabular}[c]{@{}l@{}}
   KHATT
   \end{tabular} 
@@ -606,7 +603,7 @@ In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa202
   \end{tabular} 
   \\ \hline
   
-  AlShehri \cite{alshehri2022} & 2024 & 
+  AlShehri \cite{alshehri2024deepahr} & 2024 & 
   \begin{tabular}[c]{@{}l@{}}
     Hijja \\
     AHCD
@@ -618,7 +615,7 @@ In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa202
   \end{tabular} 
   \\ \hline
   
-  Alghyaline \cite{alghyaline2023} & 2024 & 
+  Alghyaline \cite{alghyalineoptimised} & 2024 & 
   \begin{tabular}[c]{@{}l@{}}
   Hijja \\
   AHCD \\
