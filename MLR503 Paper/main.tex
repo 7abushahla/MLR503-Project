@@ -497,12 +497,14 @@ Another common approach involves combining CNNs with other classifiers, such as 
 
 RNNs, particularly BiLSTM networks, have also been integrated with CNNs to capture sequential dependencies in handwriting. For example, Jemni et al \cite{jemni2017arabic} proposed an Arabic HTR based on multiple BiLSTM-CTC combinations. They employed two feature extraction techniques: (1) segment-based features and (2) Distribution-Concavity (DC)-based features. These features were trained on different levels of the BiLSTM-CTC combinations, including low-level fusion, mid-level combination methods, and high-level fusion. Experiments on the KHATT dataset demonstrated that high-level fusion yielded a word error rate (WER) of 29.13\% and a character error rate (CER) of 16.27\%.
 
+Sliding window techniques have also been explored for feature extraction in Arabic HTR. Stahlberg and Vogel \cite{stahlberg2017} proposed a recognition system using a sliding window approach with a window width of 3 pixels and an overlap of 2 pixels. They extracted pixel-based features from raw grayscale values and segment-based features such as centroid and height. Utilizing the Kaldi toolkit for classification, their method achieved a WER of 30.5\% on the HACDB dataset.
+
 Moreover, BenZeghiba et al. \cite{benzeghiba2018hybrid} developed a hybrid Hidden Markov Model (HMM) and Artificial Neural Network (ANN) framework to recognize Arabic handwritten text. Their system utilized MDLSTMs to extract pixel values by scanning text line images in four directions. During training, CTC was used, and the Viterbi algorithm served as the decoding strategy to generate the best hypothesis of a character sequence. Incorporating a hybrid language model that included words and PAWs, the system achieved a WER of 33\% on the KHATT dataset.
 
 Data augmentation and normalization techniques have also been explored to enhance the robustness of HTR systems. Wigington et al. \cite{wigington2020} introduced a novel profile normalization strategy for both word and line images, alongside augmenting existing text images using random perturbations on a regular grid. These techniques, combined with a CNN-LSTM architecture, improved handwriting text recognition, particularly for datasets with diverse handwriting styles. Recognizing the distinct characteristics of children's handwriting, Altwaijry et al. \cite{altwaijry2021arabic} trained their models on children's handwriting samples to address variations unique to younger writers.
 
 
-Recent advancements have focused on leveraging various CNN architectures to tackle the specific challenges of Arabic script, such as cursive writing and diacritical markings. Khayati et al. \cite{khayati2021} emphasized the development and efficiency of several CNN architectures in addressing these challenges. Additionally, Lamia et al. \cite{lamia2019} developed a CNN-graph theory method for segmenting linked and overlapping cursive Arabic letters, significantly improving character identification accuracy. In their study, AlShehri et al. \cite{alshehri2022} introduced DeepAHR, a deep neural network designed for Arabic handwritten recognition, which demonstrated enhanced feature extraction and recognition capabilities, outperforming previous models in both accuracy and processing speed.
+Recent advancements have focused on leveraging various CNN architectures to tackle the specific challenges of Arabic script, such as cursive writing and diacritical markings. Khayati et al. \cite{khayati2021} emphasized the development and efficiency of several CNN architectures in addressing these challenges. Additionally, Berriche et al. \cite{berriche2024hybrid} developed a CNN-graph theory method for segmenting linked and overlapping cursive Arabic letters, significantly improving character identification accuracy. In another study, AlShehri et al. \cite{alshehri2022} introduced DeepAHR, a deep neural network designed for Arabic handwritten recognition, which demonstrated enhanced feature extraction and recognition capabilities, outperforming previous models in both accuracy and processing speed.
 
 Furthermore, pretrained CNN models such as VGG \cite{}, ResNet \cite{}, and Inception \cite{} have been adapted for Arabic HTR. For example, Alghyaline et al. \cite{alghyaline2023} evaluated these models on datasets like Hijja, the Arabic Handwritten Character Dataset (AHCD), and the AlexU Isolated Alphabet (AIA9K), achieving accuracies of 93.05\%, 98.30\%, and 96.88\% respectively using the VGG model. Transformer-based architectures have also been explored, with Momeni and BabaAli \cite{momeni2023} employing transformer transducers and cross-attention mechanisms on the KHATT dataset, resulting in a CER of 18.45\%.
 
@@ -513,15 +515,173 @@ More recently, a new dataset, Muharaf, was released by  Saeed et al. \cite{saeed
 
 Furthermore, Chan et al. \cite{chan2024hatformer} developed a transformer-based encoder-decoder model called HATFormer for line-level HTR. HATFormer utilizes Vision Transformers (ViT) \cite{}to extract visual features and employs RoBERTa (Robustly Optimized BERT Approach) \cite{}, a pretrained language model, for accurate text decoding. They also introduced a BlockProcessor to preserve image aspect ratios and reduce horizontal information loss. Evaluated primarily on the Muharaf dataset, HATFormer achieved a CER of 11.7\%, outperforming traditional CNN-RNN models in recognizing Arabic handwriting. However, this advancement comes with a trade-off of higher computational costs due to the complexity of transformer architectures. HATFormer was also tested on the KHATT and MADCAT datasets, achieving CERs of 14.1\% and 4.2\%, respectively.
 
-In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa2024machine} proposed an enhanced HTR system that incorporates a post-processing step using KenLM, a statistical language model trained on Arabic text. Their architecture follows the traditional CNN-BiLSTM-CTC framework, utilizing a 32-layer ResNet for feature extraction followed by three BiLSTM layers with CTC loss for sequence prediction. The integration of KenLM refines the model's predictions by incorporating contextual word probabilities, thereby improving recognition accuracy. This approach achieved state-of-the-art performance, benchmarking on the KHATT and AHTID/MW datasets with a CER of 13.2\% and a WER of 27.31\% on KHATT, and a CER of 6.6\% and a WER of 17.42\% on AHTID/MW, surpassing the performance of transformer-based models like HATFormer.
+In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa2024machine} proposed an enhanced HTR system that incorporates a post-processing step using KenLM, a statistical language model trained on Arabic text. Their architecture follows the traditional CNN-BiLSTM-CTC framework, utilizing a 32-layer ResNet for feature extraction followed by three BiLSTM layers with CTC loss for sequence prediction. The integration of KenLM refines the model's predictions by incorporating contextual word probabilities, thereby improving recognition accuracy. This approach achieved state-of-the-art performance, benchmarking on the KHATT and AHTID/MW datasets with a CER of 13.2\% and a WER of 27.31\% on KHATT, and a CER of 6.6\% and a WER of 17.42\% on AHTID/MW, surpassing the performance of transformer-based models like HATFormer. Table ~\ref{tab:deep_learning_methods} below lists the recent works discussed in this section.
 
 
+\begin{table*}[t]
+  \centering
+  \renewcommand{\arraystretch}{1.3}
+  \caption{Deep Learning Methods for Arabic Handwritten Text Recognition}
+  \label{tab:deep_learning_methods}
+  \begin{tabular}{|l|c|l|l|c|}
+  \hline
+  \textbf{Reference} & \textbf{Year} & \textbf{Dataset} & \textbf{Architecture} & \textbf{Performance} \\ \hline
+  
+  Stahlberg and Vogel \cite{stahlberg2017} & 2015 & 
+  \begin{tabular}[c]{@{}l@{}}
+  HACDB \\
+  IFN/ENIT
+  \end{tabular} 
+  & Sliding Window + Kaldi & 
+  \begin{tabular}[c]{@{}l@{}}
+  WER: 30.5\% \\
+  WER: 11.5\%
+  \end{tabular} 
+  \\ \hline
+  
+  BenZeghiba et al. \cite{benzeghiba2018hybrid} & 2015 & 
+  \begin{tabular}[c]{@{}l@{}}
+  KHATT \\
+  Maurdor
+  \end{tabular} 
+  & HMM + MDLSTM & 
+  \begin{tabular}[c]{@{}l@{}}
+  WER: 31.3\% \\
+  WER: 33.2\%
+  \end{tabular} 
+  \\ \hline
+  
+  Elleuch et al. \cite{elleuch2016new} & 2016 & 
+  \begin{tabular}[c]{@{}l@{}}
+  HACDB \\
+  IFN/ENIT
+  \end{tabular} 
+  & CNN + SVM & 
+  \begin{tabular}[c]{@{}l@{}}
+  ECR: 5.83\%  \\
+  ECR: 7.05\% 
+  \end{tabular} 
+  \\ \hline
+  
+  Jemni et al. \cite{jemni2017arabic} & 2018 & 
+  \begin{tabular}[c]{@{}l@{}}
+  KHATT
+  \end{tabular} 
+  & CNN + BiLSTM + CTC & 
+  \begin{tabular}[c]{@{}l@{}}
+  CER: 16.27\% \\
+  WER: 29.13\%
+  \end{tabular} 
+  \\ \hline
+  
+  Berriche et al. \cite{berriche2024hybrid} & 2019 & 
+  \begin{tabular}[c]{@{}l@{}}
+  IESK-ArDB
+  \end{tabular} 
+  & Segmentation Hypothesis Graph + CNN & 
+  \begin{tabular}[c]{@{}l@{}}
+  Accuracy: 96.97\%  
+  \end{tabular} 
+  \\ \hline
+  
+  Altwaijry et al. \cite{altwaijry2021arabic} & 2021 & 
+  \begin{tabular}[c]{@{}l@{}}
+  Hijja \\
+  AHCD
+  \end{tabular} 
+  & Segmentation + CNN & 
+  \begin{tabular}[c]{@{}l@{}}
+  Accuracy: 88\% \\
+  Accuracy: 97\%
+  \end{tabular} 
+  \\ \hline
+  
+  Momeni et al. \cite{momeni2023} & 2023 & 
+  \begin{tabular}[c]{@{}l@{}}
+  KHATT
+  \end{tabular} 
+  & Transformer with Cross-attention & 
+  \begin{tabular}[c]{@{}l@{}}
+  CER: 18.45\%
+  \end{tabular} 
+  \\ \hline
+  
+  AlShehri \cite{alshehri2022} & 2024 & 
+  \begin{tabular}[c]{@{}l@{}}
+    Hijja \\
+    AHCD
+  \end{tabular} 
+  & Segmentation + CNN & 
+  \begin{tabular}[c]{@{}l@{}}
+    Accuracy: 88.24\% \\
+    Accuracy: 98.66\%
+  \end{tabular} 
+  \\ \hline
+  
+  Alghyaline \cite{alghyaline2023} & 2024 & 
+  \begin{tabular}[c]{@{}l@{}}
+  Hijja \\
+  AHCD \\
+  AIA9K
+  \end{tabular} 
+  & Pretrained VGG & 
+  \begin{tabular}[c]{@{}l@{}}
+  Accuracy: 96.88\%  \\
+  Accuracy: 98.30\%  \\
+  Accuracy: 93.05\% 
+  \end{tabular} 
+  \\ \hline
+  
+  Saeed et al. \cite{saeed2024muharaf} & 2024 & 
+  \begin{tabular}[c]{@{}l@{}}
+  Muharaf \\
+  KHATT \\
+  MADCAT
+  \end{tabular} 
+  & SOL + LF + HW Networks & 
+  \begin{tabular}[c]{@{}l@{}}
+  CER: 14.9\%  \\
+  CER: 14.1\%  \\
+  CER: 5.5\% 
+  \end{tabular} 
+  \\ \hline
+  
+  Mutawa et al. \cite{mutawa2024machine} & 2024 & 
+  \begin{tabular}[c]{@{}l@{}}
+  KHATT \\
+  AHTID/MW
+  \end{tabular} 
+  & CNN-BiLSTM-CTC + KenLM & 
+  \begin{tabular}[c]{@{}l@{}}
+  CER: 13.2\%  \\
+  WER: 27.31\% \\
+  CER: 6.6\%  \\
+  WER: 17.42\% 
+  \end{tabular} 
+  \\ \hline
+  
+  Chan et al. \cite{chan2024hatformer} & 2024 & 
+  \begin{tabular}[c]{@{}l@{}}
+  Muharaf \\
+  KHATT \\
+  MADCAT
+  \end{tabular} 
+  & HATFormer (ViT + RoBERTa + BlockProcessor) & 
+  \begin{tabular}[c]{@{}l@{}}
+  CER: 11.7\%  \\
+  CER: 14.1\%  \\
+  CER: 4.2\% 
+  \end{tabular} 
+  \\ \hline
+  \end{tabular}
+\end{table*}
 
+  
 
 
 
 \section{Methodology}
-In this section, we detail the steps we took to reproduce the results of \cite{mutawa2024machine}. We discuss the data preparation, model architecture, training strategies, and the evaluation metrics to assess our model for robustness and reproducibility.
+In this section, we detail the steps we took to reproduce the results of \cite{mutawa2024machine}. We discuss the data preparation, model architecture, training strategies, and evaluation metrics to assess our model for robustness and reproducibility.
 
 
 \subsection{Data Preparation and Preprocessing}
@@ -529,17 +689,19 @@ In this section, we detail the steps we took to reproduce the results of \cite{m
 
 % The KHATT dataset was unaccessable (webside was corrupted), we could not find the official source. we find differnet versions online e.g. kaggle and huggingface. we ededup seleetign this one to use. although it does not have all the # of lines reported in other papers. so we used the one from kaggle. this was was already made into lines and preprocessed (as far as we could tell) with ground truth lables in txt format
 
-To prepare the data for model training, we utilized the filtered line-by-line images of the KHATT dataset from *CITE KAGGLE LINK HERE*. The data has already been preprocessed by binarizing the images, cropping out the unnecessary whitespaces around the handwritten texts, and straightening out the lines as much as possible. Thus, the only preprocessing we had to do was adhering to the paper's \cite{mutawa2024machine} resizing of the images to 64 pixels for the height and 1048 for the width, normalizing the images, and horizontally flipping the images and the labels because a CNN traverses the image from left-to-right. Furthermore, we used a 80-10-10 train-validation-test split stratified on the length of the sentences because longer sentences may impact the discriminative ability of the model. Before this step, we had to aggregate sentences with less than eight characters to ensure an adequate number of samples of varying sentence lengths for each split. Lastly, we employed data augmentation through Keras' ImageDataGenerator to increase our dataset's size and improve the model's generalizability.
+To prepare the data for model training, we utilized the filtered line-by-line images of the KHATT dataset from Kaggle. The data has already been preprocessed by binarizing the images, cropping out the unnecessary whitespaces around the handwritten texts, and straightening out the lines as much as possible. Thus, the only preprocessing we had to do was adhering to the paper's \cite{mutawa2024machine} resizing of the images to 64 pixels for the height and 1048 for the width, normalizing the images, and horizontally flipping the images and the labels because a CNN traverses the image from left-to-right. Furthermore, we used an 80-10-10 train-validation-test split stratified on the length of the sentences because longer sentences may impact model's discriminative ability. Before this step, we had to aggregate sentences with less than eight characters to ensure an adequate number of samples of varying sentence lengths for each split. Lastly, we employed data augmentation through Keras' ImageDataGenerator to increase our dataset's size and improve the model's generalizability.
 
 \subsubsection{Model Architecture}
 
-As we aim to reproduce the results of \cite{mutawa2024machine}, we reimplemented the architecture detailed in the paper to the best of our ability. This led to us creating the CNN-BiLSTM architecture, which is the most popular framework for the OCR task \cite{ahmad2020deep, aabed2024end, mosbah2024adocrnet,mutawa2024machine,saeed2024muharaf} for a number of reasons. Moving away from using handcrafted features like SIFT descriptors, the CNN is responsible for extracting the hierarchical spatial features inherent in an image, especially in handwritten text images. As the CNN traverses the handwritten text from left-to-right, it learns, through its various filters, how to capture the shapes of diacritics, letters, and words in Arabic handwritten text. For example, learning the distinction between the Arabic letters "\artext{ب}" (Ba) and "\artext{ت}" (Ta) relies on the model knowing where to place the dots and how many. Moreover, adding more and more layers can result in a better representation of the handwritten text. However, training deeper networks is not necessarily easy, mostly due to the vanishing gradient problem---where multiplying many small gradients together results in hindering the neural network's learning process. Thus, the introduction of skip connections or residual connections.
+As we aim to reproduce the results of \cite{mutawa2024machine}, we reimplemented the architecture detailed in the paper to the best of our ability. This led to us creating the CNN-BiLSTM architecture, which is the most popular framework for the OCR task \cite{ahmad2020deep, aabed2024end, mosbah2024adocrnet,mutawa2024machine,saeed2024muharaf} for a number of reasons. Moving away from using handcrafted features like SIFT descriptors, the CNN extracts the hierarchical spatial features inherent in an image, especially in handwritten text images. As the CNN traverses the handwritten text from left-to-right, it learns, through its various filters, how to capture the shapes of diacritics, letters, and words in Arabic handwritten text. For example, learning the distinction between the Arabic letters "\artext{ب}" (Ba) and "\artext{ت}" (Ta) relies on the model knowing where to place the dots and how many.
+
+Moreover, adding more and more layers can result in a better representation of the handwritten text. However, training deeper networks is not necessarily easy, primarily due to the vanishing gradient problem---where multiplying many small gradients together hinders the neural network's learning process. Thus, the introduction of skip connections or residual connections.
 
 Skip connections allow a layer to bypass one or more subsequent layers by adding or concatenating its output as another input to a non-consecutive layer. That is, they allow the outputs of a layer to be fed to a much later layer either through element-wise addition or concatenation. This is the foundational idea of the ResNet architecture. With these skip connections, training deeper networks is easier, and the impact of vanishing gradients is reduced. We recreated the ResNet32 architecture, serving as the backbone and the feature extractor of our handwritten text images. The residual blocks within ResNet32 contain skip connections that perform element-wise addition and also batch normalization layers. The presence of batch normalization layers helps stabilize training and accelerate convergence by normalizing the feature maps. The only change we made to this ResNet32 architecture was adding a \( 1 \times 1 \) convolutional layer in the residual block to handle the varying filter sizes for the skip connections. This ensures compatibility between the layers.
 
-After adding a dropout layer after the ResNet block to lessen the chances of overfitting to the training set, the feature maps are fed into the three BiLSTMs. The three BiLSTMs address the sequential nature of handwriting and the necessity of considering the connections between each letter to form a word, especially important in cursive-styled text like Arabic. Furthermore, the bidirectional behavior of this particular LSTM is essential to the network learning how the preceding and subsequent characters relate to each other. For instance, the form of the letter "\artext{ع}" (Ain) depends on its position within a word. This is how the BiLSTM layers handle these contextual variations, improving character recognition accuracy.
+After adding a dropout layer after the ResNet block to lessen the chances of overfitting to the training set, the feature maps are fed into the three BiLSTMs. The three BiLSTMs address the sequential nature of handwriting and the necessity of considering the connections between each letter to form a word, which is especially important in cursive-styled text like Arabic. Furthermore, the bidirectional behavior of this particular LSTM is essential to the network learning how the preceding and subsequent characters relate to each other. For instance, the form of the letter "\artext{ع}" (Ain) depends on its position within a word. This is how the BiLSTM layers handle these contextual variations, improving character recognition accuracy.
 
-Succeeding the dropout layer directly after all three BiLSTM layers is a fully connected dense layer, followed by the CTC as the loss function to help optimize how the model learns to align its predictions with the ground truth labels. For Arabic OCR, this means the prediction of a character sequence in a handwritten word can be done without explicitly segmenting each individual character---a challenging task due to the cursive nature of Arabic and the distinct writing styles of different writers. Both of the aforementioned dropout layers randomly drop neurons at a rate of 0.2 during training to force the model to better generalize to unseen data.
+Succeeding the dropout layer directly after all three BiLSTM layers is a fully connected dense layer, followed by the CTC as the loss function to help optimize how the model learns to align its predictions with the ground truth labels. For Arabic OCR, this means the prediction of a character sequence in a handwritten word can be made without explicitly segmenting each individual character---a challenging task due to the cursive nature of Arabic and the distinct writing styles of different writers. Both of the aforementioned dropout layers randomly drop neurons at a rate of 0.2 during training to force the model to better generalize to unseen data.
 
 To boost the accuracy of the predicted text, we employed Word Beam Search decoding in conjunction with the KenLM language model for post-processing. Word Beam Search decoding generates possible character sequences constrained by a dictionary of valid words, ensuring that only logical word combinations are considered. To further improve the quality of the output, a probability-based language model, KenLM, is used.
 
@@ -547,7 +709,7 @@ KenLM is an n-gram-based statistical language model that predicts the likelihood
 
 \subsubsection{Model Training Details}
 
-OCR is a sequence-to-sequence problem because a sequence of characters are recognized from the images and a sequence of characters are predicted to match the characters seen from the handwritten text. For this specific task, we used the CTC as our loss function during our training process, lasting 300 epochs. The Adadelta optimizer was used with an initially high learning rate of 1.0. The hyperparameters for model training are mentioned below in Table~\ref{tab:general_training_parameters}:
+OCR is a sequence-to-sequence problem because a sequence of characters is recognized from the images, and a sequence of characters is predicted to match the characters seen from the handwritten text. For this specific task, we used the CTC as our loss function during our training process, lasting 300 epochs. The Adadelta optimizer was used with an initially high learning rate of 1.0. The hyperparameters for model training are mentioned below in Table~\ref{tab:general_training_parameters}:
 
 \begin{table}[H]
   \caption{General Training Hyperparameters}
@@ -624,14 +786,14 @@ Mode & Min \\
 
 \subsubsection{Supplementary Callbacks}
 
-To supplement the training process, we utilized additional callback functions. We periodically saved the model every 25 epochs, outputted training and validation metrics for each epoch, and cleared the displayed outputs in the Jupyter Notebook every 10 epochs to improve the readability of the notebook during model training.
+To supplement the training process, we utilized additional callback functions. We periodically saved the model every 25 epochs, outputted training and validation metrics for each epoch, and cleared the displayed outputs in the Jupyter Notebook every 10 epochs to improve the notebook's reaedability during model training.
 
 \subsection{Post-processing}
-After training the models, we improved the accuracy of the predicted text by integrating KenLM with Word Beam Search decoding. We trained KenLM on our dataset's corpus of text with three different n-gram orders: 2-gram (bigrams), 3-gram (tri-gram), and 4-gram. With these n-grams, we could conduct ablation studies to see the impact of higher order n-grams in refining the decoded outputs of our OCR system based on our evaluation metrics.
+After training the models, we improved the accuracy of the predicted text by integrating KenLM with Word Beam Search decoding. We trained KenLM on our dataset's corpus of text with three different n-gram orders: 2-gram (bigrams), 3-gram (tri-gram), and 4-gram. With these n-grams, we could conduct ablation studies to see the impact of higher-order n-grams in refining the decoded outputs of our OCR system based on our evaluation metrics.
 
 \subsection{Performance Evaluation}
 
-Due to the nature of this task, especially with complex scripts such as Arabic, we had to resort to robust metrics to evaluate the performance of the model. These are character error rate (CER) and word error rate (WER). CER measures the character-level differences between the predicted text and the groundtruth, while WER is concerned about word-level discrepancies. These particular metrics are derived from calculating the Levenshtein distance, a meaure of how different is a sequence of characters from another. The Levenshtein Distance is the minimum number of transformations necessary to convert a sequence into another sequence. These transformations to a given sequence could be insertions, deletions, or substitutions. Below are the similar mathematical formulations for CER and WER:
+Due to the nature of this task, especially with complex scripts such as Arabic, we had to resort to robust metrics to evaluate the performance of the model. These are character error rate (CER) and word error rate (WER). CER measures the character-level differences between the predicted text and the groundtruth, while WER concerns word-level discrepancies. These particular metrics are derived from calculating the Levenshtein distance, a measure of how different a sequence of characters is from another. The Levenshtein Distance is the minimum number of transformations necessary to convert a sequence into another sequence. These transformations to a given sequence could be insertions, deletions, or substitutions. Below are the similar mathematical formulations for CER and WER:
 
 
 \begin{equation}
@@ -661,11 +823,11 @@ Due to the nature of this task, especially with complex scripts such as Arabic, 
 
 Model training was conducted on two NVIDIA A100 (SXM4) Tensor Core GPUs, each with 80 GB of memory. One was provided by the American University of Sharjah's (AUS) Computer Science and Engineering (CSE) Department from their Artificial Intelligence (AI) lab, while another was accessed remotely through RunPod's platform. This setup facilitated the parallel execution of two seeds to obtain two distinct models. Upon generating two distinct models, we computed the average and standard deviation of the evaluation metrics across both runs. This approach helped ensure the model’s stability and reliability when applied to real-world data.
 
-The training environment was configured with Python 3 and TensorFlow libraries, running on Ubuntu 24.04.1. GPU computations were optimized using CUDA version 12.4 and cuDNN, ensuring efficient resource utilization. The training time varied based because of the shared CPU usage on the AUS CSE AI Lab's A100 GPU. The average training time is 2 hours, 48 minutes, and 34 seconds.
+The training environment was configured with Python 3 and TensorFlow libraries and ran on Ubuntu 24.04.1. GPU computations were optimized using CUDA version 12.4 and cuDNN, ensuring efficient resource utilization. The training time varied based because of the shared CPU usage on the AUS CSE AI Lab's A100 GPU. The average training time is 2 hours, 48 minutes, and 34 seconds.
 
-A key challenge we encountered during experimentation involved the capability of loading the full models to either resume training or re-calculate the evaluation metrics. This difficulty arose due to the addition of a custom layer for the calculation of the CTC Loss through the CTC layer, which entailed ensuring it's compatibility with TensorFlow’s serialization and deserialization framework.
+A key challenge we encountered during experimentation involved the capability of loading the full models to either resume training or re-calculate the evaluation metrics. This difficulty arose due to the addition of a custom layer for calculating the CTC Loss through the CTC layer, which entailed ensuring its compatibility with TensorFlow’s serialization and deserialization framework.
 
-To address this, each custom layer was implemented to fully support model serialization and deserialization. The \begin{small}\texttt{get\_config()}\end{small} method was used to store initialization parameters, ensuring the proper reconstruction of the CTC layer’s configurations. Furthermore, the \begin{small}\texttt{@tf.keras.utils.register\_keras\_serializable()}\end{small} decorator was employed to make the layer compatible with TensorFlow’s saving and loading mechanisms. The \texttt{call()} method defined the forward pass logic, ensuring consistency during both training and inference. By following these practices, the custom layer was seamlessly integrated into the TensorFlow workflow, enabling efficient experimentation and potential deployment across various setups.
+To address this concern, each custom layer was implemented to fully support model serialization and deserialization. The \begin{small}\texttt{get\_config()}\end{small} method was used to store initialization parameters, ensuring the proper reconstruction of the CTC layer’s configurations. Furthermore, the \begin{small}\texttt{@tf.keras.utils.register\_keras\_serializable()}\end{small} decorator was employed to make the layer compatible with TensorFlow’s saving and loading mechanisms. The \texttt{call()} method defined the forward pass logic, ensuring consistency during both training and inference. By following these practices, the custom layer was seamlessly integrated into the TensorFlow workflow, enabling efficient experimentation and potential deployment across various setups.
 
 \subsection{Main Results}
 
@@ -675,7 +837,7 @@ To address this, each custom layer was implemented to fully support model serial
   \label{tab:test_results}
   \begin{tabular}{lllll}
   \toprule
-     Metric &                Mean No KenLM (Std) &      Mean 2-gram KenLM (Std) &      Mean 3-gram KenLM (Std) &                 Mean 4-gram KenLM (Std) \\
+     Metric &                Mean No KenLM - Baseline (Std) &      Mean 2-gram KenLM (Std) &      Mean 3-gram KenLM (Std) &                 Mean 4-gram KenLM (Std) \\
   \midrule
   Test Loss & 182.699 (3.016) &                            - &                            - &                                       - \\
         CER &               1.894 (0.121) &               0.903 (0.0421) &              0.903 (0.0418) &                      0.903 (0.0417) \\
@@ -684,7 +846,28 @@ To address this, each custom layer was implemented to fully support model serial
   \end{tabular}
 \end{table*}
 
-We assessed our models using the evaluation metrics averaged across both seeds: 42 and 503 as shown in Table~\ref{tab:test_results}. For this analysis, we only consider the evaluation on the unseen test data. The evaluations on the training and validations sets across both seeds can be found in the Appendix *INSERT TABLES HERE* for further information about the model's performance throughout training.
+We assessed our models using the evaluation metrics averaged across both seeds, 42 and 503, as shown in Table~\ref{tab:test_results}. For this analysis, we only consider the evaluation on the unseen test data.
+
+\subsubsection{Baseline Performance without KenLM} 
+
+Without integrating a language model, the model achieved a mean CER of approximately 1.894 (standard deviation of 0.121) and a mean WER of about 2.543 (0.196). These baseline results are relatively high, highlighting the inherent challenges of Arabic OCR—especially with handwritten text. Not only did the model have to handle significant variability in how a writer forms their characters and words, it also had to deal with the cursive nature of Arabic and the presence of diacritics. These characteristics further complicate the model’s ability to learn how to correctly predict a character sequence. The extremely high CTC test loss, averaging around 182.699 (3.016), underscores the complexity of this task in the absence of linguistic constraints during decoding.
+
+\subsubsection{Impact of KenLM Integration}
+
+Once we integrated KenLM during the decoding stage, our CER and WER metrics improved considerably. Specifically, introducing a 2-gram KenLM model decreased the CER from 1.894 to approximately 0.903 (standard deviation of 0.0421) and the WER from 2.543 to around 0.998 (0.0017). This significant improvement highlights the essential role that contextual, language-level information plays in narrowing down valid word sequences, thereby mitigating many ambiguities that may arise solely from the model’s raw character predictions. Essentially, using a language model effectively guides the Word Beam Search decoder towards more linguistically coherent and proper output sequences.
+
+The performance improvements obtained by using KenLM are not only substantial but also consistent. The low standard deviation values for both CER and WER after integrating KenLM indicate that the improvements are stable across both runs. This consistency is important for practical applications, suggesting that the approach does not rely on favorable splits, for example. Instead, combining the model with KenLM can result in better generalizations and reliably reduce error rates.
+
+\subsubsection{Comparison of Different n-gram Orders in KenLM}
+
+To investigate the effect of capturing more extensive contextual dependencies, we experimented with 2-gram, 3-gram, and 4-gram KenLM models. Surprisingly, the results for CER and WER remained statistically similar across these different n-gram orders. For instance, the CER consistently hovered around 0.903 irrespective of whether a 2-gram, 3-gram, or 4-gram model was employed. Similarly, the WER remained at approximately 0.998 across all three configurations.
+
+This observation suggests that increasing the context window beyond bigrams yields minimal measurable improvements within our specific setup. However, this may instead be explained by the subpar models produced during training, even if these are our best-validated models. The bottleneck in performance might lie in the feature extractor or the sequential handling of the feature maps. Therefore, it is important to acknowledge that the effectiveness of the KenLM n-gram models is inherently tied to the performance of the underlying neural network. That is, the neural network's performance severely constrains the benefits of integrating KenLM as a post-processor in an OCR task.
+
+To conclude, while the baseline CNN-BiLSTM model with a ResNet32 backbone and CTC loss demonstrate forgettable results, post-processing with a language model, such as KenLM, significantly alleviates this issue. The language model integration reduces both CER and WER by more than half, illustrating how combining a neural network with a language model can yield a much more accurate handwriting OCR system for Arabic. Notably, these improvements are consistent across both random seeds and do not appreciably increase with higher-order n-grams, probably due to the fact that the underlying network could perform better.
+
+Overall, these findings further highlight that post-processing is the key to unlocking better performance in Arabic OCR systems. Moreover, this does make us wonder how much better large language models would be as the post-processing component in an Arabic OCR pipeline. 
+
 
 \section{Conclusions and Future Work}
 
@@ -699,5 +882,17 @@ Overall, we explored the use of deep learning techniques to improve the recognit
 % Bibliography section
 \bibliographystyle{IEEEtran}  % IEEE style
 \bibliography{references}
+
+
+\newpage 
+\clearpage
+
+\appendices
+
+% Switch to single-column layout for appendices
+\onecolumn
+
+\section{Training and Validation Results}
+\label{TrainValidateResults}
 
 \end{document}
