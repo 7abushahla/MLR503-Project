@@ -1,0 +1,6 @@
+
+Comparison of OCR Model Performance:
+Metric    No KenLM       2-gram KenLM   3-gram KenLM   4-gram KenLM   
+Test Loss 185.7146       185.7146       185.7146       185.7146       
+CER       2.0146         0.9451         0.9443         0.9442         
+WER       2.3468         0.9967         0.9952         0.9950         
