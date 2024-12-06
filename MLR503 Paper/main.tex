@@ -506,7 +506,12 @@ Recent advancements have focused on leveraging various CNN architectures to tack
 
 Furthermore, pretrained CNN models such as VGG \cite{}, ResNet \cite{}, and Inception \cite{} have been adapted for Arabic HTR. For example, Alghyaline et al. \cite{alghyaline2023} evaluated these models on datasets like Hijja, the Arabic Handwritten Character Dataset (AHCD), and the AlexU Isolated Alphabet (AIA9K), achieving accuracies of 93.05\%, 98.30\%, and 96.88\% respectively using the VGG model. Transformer-based architectures have also been explored, with Momeni and BabaAli \cite{momeni2023} employing transformer transducers and cross-attention mechanisms on the KHATT dataset, resulting in a CER of 18.45\%.
 
- 
+
+More recently, a new dataset, Muharaf, was released by  Saeed et al. \cite{saeed2024muharaf}, and they conducted page-level HTR on it using a combination of three CNN-based models: the Start of Line (SOL) Network, the Line Follower (LF) Network, and the Handwriting Recognition (HW) Network. The SOL Network is a CNN designed to detect the starting coordinates of each text line in a page image. The LF Network, another CNN, tracks the trajectory of text lines by iteratively predicting the next coordinates and orientation. The HW Network is a CNN–BiLSTM model trained with CTC loss for end-to-end text recognition, which was also employed for line-level HTR. Using the Muharaf dataset, their system achieved a CER of 0.157 and a WER of 0.398. Additionally, they tested their architecture on other datasets, obtaining a CER of 14.1\% on KHATT and 5.5\% on MADCAT.
+
+Furthermore, Chan et al. \cite{chan2024hatformer} developed a transformer-based encoder-decoder model called HATFormer for line-level HTR. HATFormer utilizes Vision Transformers (ViT) to extract visual features and employs RoBERTa (Robustly Optimized BERT Approach), a pretrained language model, for accurate text decoding. They also introduced a BlockProcessor to preserve image aspect ratios and reduce horizontal information loss. Evaluated primarily on the Muharaf dataset, HATFormer achieved a CER of 11.7\%, outperforming traditional CNN-RNN models in recognizing Arabic handwriting. However, this advancement comes with a trade-off of higher computational costs due to the complexity of transformer architectures. HATFormer was also tested on the KHATT and MADCAT datasets, achieving CERs of 14.1\% and 4.2\%, respectively.
+
+
 
 
 
