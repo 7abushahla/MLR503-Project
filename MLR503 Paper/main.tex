@@ -518,8 +518,6 @@ Furthermore, Chan et al. \cite{chan2024hatformer} developed a transformer-based 
 In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa2024machine} proposed an enhanced HTR system that incorporates a post-processing step using KenLM, a statistical language model trained on Arabic text. Their architecture follows the traditional CNN-BiLSTM-CTC framework, utilizing a 32-layer ResNet for feature extraction followed by three BiLSTM layers with CTC loss for sequence prediction. The integration of KenLM refines the model's predictions by incorporating contextual word probabilities, thereby improving recognition accuracy. This approach achieved state-of-the-art performance, benchmarking on the KHATT and AHTID/MW datasets with a CER of 13.2\% and a WER of 27.31\% on KHATT, and a CER of 6.6\% and a WER of 17.42\% on AHTID/MW, surpassing the performance of transformer-based models like HATFormer. Table ~\ref{tab:deep_learning_methods} below lists the recent works discussed in this section.
 
 
-<<<<<<< Updated upstream
-=======
 \begin{table*}[t]
   \centering
   \renewcommand{\arraystretch}{1.3}
@@ -682,7 +680,6 @@ In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa202
 
 
 
->>>>>>> Stashed changes
 \section{Methodology}
 In this section, we detail the steps we took to reproduce the results of \cite{mutawa2024machine}. We discuss the data preparation, model architecture, training strategies, and the evaluation metrics to assess our model for robustness and reproducibility.
 
@@ -859,7 +856,9 @@ Once we integrated KenLM during the decoding stage, our CER and WER metrics impr
 
 The performance improvements obtained by using KenLM are not only substantial but also consistent. The low standard deviation values for both CER and WER after integrating KenLM indicate that the improvements are stable across both runs. This consistency is important for practical applications, suggesting that the approach does not rely on favorable splits, for example. Instead, the combination of the model with KenLM can result in better generalizations, reliably reducing error rates.
 
-\subsubsection{Comparison of Different n-gram Orders in KenLM} To investigate the effect of capturing more extensive contextual dependencies, we experimented with 2-gram, 3-gram, and 4-gram KenLM models. Surprisingly, the results for CER and WER remained statistically similar across these different n-gram orders. For instance, the CER consistently hovered around 0.903 irrespective of whether a 2-gram, 3-gram, or 4-gram model was employed. Similarly, the WER remained approximately 0.998 across all three configurations.
+\subsubsection{Comparison of Different n-gram Orders in KenLM} 
+
+To investigate the effect of capturing more extensive contextual dependencies, we experimented with 2-gram, 3-gram, and 4-gram KenLM models. Surprisingly, the results for CER and WER remained statistically similar across these different n-gram orders. For instance, the CER consistently hovered around 0.903 irrespective of whether a 2-gram, 3-gram, or 4-gram model was employed. Similarly, the WER remained approximately 0.998 across all three configurations.
 
 This observation suggests that increasing the context window beyond bigrams does not yield additional measurable improvements within our specific setup. However, this may instead be explained by the subpar models produced during training, even if these are our best validated models. The bottleneck in performance might lie in the feature extractor or the sequential handling of the feature maps. Therefore, it is important to acknowledge that the effectiveness of the KenLM n-gram models is inherently tied to the performance of the underlying neural network. That is, the benefits of integrating KenLM as a post-processor in an OCR task is severely constrained by the neural network’s performance.
 
