@@ -519,36 +519,119 @@ Skip connections allows a layer to bypass one or more subsequent layers by addin
 
 OCR is a sequence-to-sequence problem because a sequence of characters are recognized from the images and a sequence of characters are predicted to match the characters seen from the handwritten text. For this specific task, we used the CTC as our loss function during our training process, lasting 300 epochs. The Adadelta optimizer was used with an initially high learning rate of 1.0. The hyperparameters for model training are mentioned below:
 
-We used various callbacks to help the model not get stuck in a local minimum and to boost generalization capabilities. The two main callbacks for these goals are ReduceLROnPlateau and EarlyStopping. ReduceLROnPlateau is a scheduler that adaptively reduces the learning rate whenever the validation loss plateaus for every 5 epochs. The reduction in the learning rate is by a factor of 0.5 to ensure smoother network convergence. The learning rate scheduler's parameters are detailed in *TABLE HERE*. To prevent wasting time and resources on overtraining and to avoid overfitting, EarlyStopping with a patience of 50 epochs is used. If the model does not improve on the evaluation metric monitored by EarlyStopping -- validation loss in our case -- then, model training will be halted.
+\begin{table}[H]
+  \caption{General Training Hyperparameters}
+  \label{tab:general_training_parameters}
+  \renewcommand{\arraystretch}{1.5} 
+  \centering
+  \begin{tabular}{|>{\centering\arraybackslash}p{4cm}|>{\centering\arraybackslash}p{4cm}|}
+  \hline
+  \textbf{Parameter} & \textbf{\textit{Value}} \\ 
+  \hline
+  Optimizer & Adadelta \\ 
+  \hline
+  Loss Function & CTC \\ 
+  \hline
+  Initial Learning Rate & \( 1.0 \) \\ 
+  \hline
+  Batch Size & 128 \\ 
+  \hline
+  Number of Epochs & 300 \\ 
+  \hline
+  Dropout Rate & 0.2 \\ 
+  \hline
+  \end{tabular}
+  \end{table}
+
+\subsubsection{Regularization and Optimization Techniques}
+To reduce the onset of overfitting to the training set, we implemented dropout layers directly after the ResNet32 block and after the three consecutive BiLSTM layers. The rate at which random neurons are dropped during the training phase is 0.2 for both dropout layers. Additionally, we used various callbacks to help the model not get stuck in a local minimum and to boost generalization capabilities. The two main callbacks for these goals are ReduceLROnPlateau and EarlyStopping. ReduceLROnPlateau is a scheduler that adaptively reduces the learning rate whenever the validation loss plateaus for every 5 epochs. The reduction in the learning rate is by a factor of 0.5 to ensure smoother network convergence. The learning rate scheduler's parameters are detailed in *TABLE HERE*. To prevent wasting time and resources on overtraining and to avoid overfitting, EarlyStopping with a patience of 50 epochs is used. If the model does not improve on the evaluation metric monitored by EarlyStopping -- validation loss in our case -- then, model training will be halted.
+
+
+\begin{table}[H]
+\caption{Learning Rate Scheduler Parameters}
+\label{tab:lr_scheduler_parameters}
+\renewcommand{\arraystretch}{1.5} % Adjust row height
+\centering
+\begin{tabular}{|>{\centering\arraybackslash}p{4cm}|>{\centering\arraybackslash}p{4cm}|}
+\hline
+\textbf{Parameter} & \textbf{\textit{Value}} \\ 
+\hline
+Learning Rate Scheduler & ReduceLROnPlateau \\ 
+\hline
+Monitor & Validation Loss \\ 
+\hline
+Scheduler Reduction Factor & 0.5 \\ 
+\hline
+Scheduler Patience & 3 epochs \\ 
+\hline
+Mode & Min \\ 
+\hline
+Minimum Learning Rate & \( 1 \times 10^{-8} \) \\ 
+\hline
+\end{tabular}
+\end{table}
+
+\vspace{-1em}
+
+\begin{table}[H]
+\caption{Early Stopping Parameters}
+\label{tab:early_stopping_parameters}
+\renewcommand{\arraystretch}{1.5} % Adjust row height
+\centering
+\begin{tabular}{|>{\centering\arraybackslash}p{4cm}|>{\centering\arraybackslash}p{4cm}|}
+\hline
+\textbf{Parameter} & \textbf{\textit{Value}} \\ 
+\hline
+Early Stopping Metric & Validation Loss \\ 
+\hline
+Early Stopping Patience & 50 epochs \\ 
+\hline
+Mode & Min \\ 
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Supplementary Callbacks}
 
 To supplement the training process, we utilized additional callback functions. We periodically saved the model every 25 epochs, outputted training and validation metrics for each epoch, and cleared the displayed outputs in the Jupyter Notebook every 10 epochs to improve the readability of the notebook during model training.
 
-Due to the nature of this task, especially with complex scripts such as Arabic, we had to resort to robust metrics to evaluate the performance of the model. These are character error rate (CER) and word error rate (WER). CER measures the character-level differences between the predicted text and the groundtruth, while WER is concerned about word-level discrepancies. These particular metrics are derived from calculating the Levenshtein distance, a meaure of how different is a sequence of characters from another. The Levenshtein Distance is the minimum number of transformations necessary to convert a sequence into another sequence. These sequences could be insertions, deletions, or substitutions. Below are the similar mathematical formulations for CER and WER:
+\subsubsection{Performance Evaluation}
 
-Model training was conducted on two NVIDIA A100 (SXM4) Tensor Core GPUs, each with 80 GB of memory. One was provided by the American University of Sharjah's (AUS) Computer Science and Engineering (CSE) Department from their Artificial Intelligence (AI) lab, while another was accessed remotely through RunPod's platform.
+Due to the nature of this task, especially with complex scripts such as Arabic, we had to resort to robust metrics to evaluate the performance of the model. These are character error rate (CER) and word error rate (WER). CER measures the character-level differences between the predicted text and the groundtruth, while WER is concerned about word-level discrepancies. These particular metrics are derived from calculating the Levenshtein distance, a meaure of how different is a sequence of characters from another. The Levenshtein Distance is the minimum number of transformations necessary to convert a sequence into another sequence. These transformations to a given sequence could be insertions, deletions, or substitutions. Below are the similar mathematical formulations for CER and WER:
 
-\begin{equation}
-    \text{CER} = \frac{S + D + I}{N},
-  \end{equation}
-
-\begin{itemize}
-  \item \( S \) = Number of character substitutions
-  \item \( D \) = Number of character deletions
-  \item \( I \) = Number of character insertions
-  \item \( N \) = Total number of characters in the reference (ground truth)
-\end{itemize}
 
 \begin{equation}
-    \text{WER} = \frac{S + D + I}{N}.
+  \text{CER} = \frac{S + D + I}{N},
 \end{equation}
 
 \begin{itemize}
-  \item \( S \) = Number of word substitutions
-  \item \( D \) = Number of word deletions
-  \item \( I \) = Number of word insertions
-  \item \( N \) = Total number of words in the reference (ground truth)
+\item \( S \) = Number of character substitutions
+\item \( D \) = Number of character deletions
+\item \( I \) = Number of character insertions
+\item \( N \) = Total number of characters in the reference (ground truth)
 \end{itemize}
 
+\begin{equation}
+  \text{WER} = \frac{S + D + I}{N}.
+\end{equation}
+
+\begin{itemize}
+\item \( S \) = Number of word substitutions
+\item \( D \) = Number of word deletions
+\item \( I \) = Number of word insertions
+\item \( N \) = Total number of words in the reference (ground truth)
+\end{itemize}
+
+\section{Experimental Results}
+\subsection{Experimental Conditions}
+
+Model training was conducted on two NVIDIA A100 (SXM4) Tensor Core GPUs, each with 80 GB of memory. One was provided by the American University of Sharjah's (AUS) Computer Science and Engineering (CSE) Department from their Artificial Intelligence (AI) lab, while another was accessed remotely through RunPod's platform. This setup facilitated the parallel execution of two seeds to obtain two distinct models. Upon generating two distinct models, we computed the average and standard deviation of the evaluation metrics across both runs. This approach helped ensure the model’s stability and reliability when applied to real-world data.
+
+The training environment was configured with Python 3 and TensorFlow libraries, running on Ubuntu 24.04.1. GPU computations were optimized using CUDA version 12.4 and cuDNN, ensuring efficient resource utilization. The training time varied based because of the shared CPU usage on the AUS CSE AI Lab's A100 GPU. The training time is: *INSERT TIME HERE*
+
+A key challenge we encountered during experimentation involved the capability of loading the full models to either resume training or re-calculate the evaluation metrics. This difficulty arose due to the addition of a custom layer for the calculation of the CTC Loss through the CTC layer, which entailed ensuring it's compatibility with TensorFlow’s serialization and deserialization framework.
+
+To address this, each custom layer was implemented to fully support model serialization and deserialization. The \begin{small}\texttt{get\_config()}\end{small} method was used to store initialization parameters, ensuring the proper reconstruction of the CTC layer’s configurations. Furthermore, the \begin{small}\texttt{@tf.keras.utils.register\_keras\_serializable()}\end{small} decorator was employed to make the layer compatible with TensorFlow’s saving and loading mechanisms. The \texttt{call()} method defined the forward pass logic, ensuring consistency during both training and inference. By following these practices, the custom layer was seamlessly integrated into the TensorFlow workflow, enabling efficient experimentation and potential deployment across various setups.
 
 \section{Results and Discussion}
 
