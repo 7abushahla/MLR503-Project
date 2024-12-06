@@ -112,7 +112,9 @@
 
 \begin{abstract}
 Handwritten Text Recognition (HTR) for Arabic script is crucial for enabling digital accessibility and automating the conversion of handwritten documents into searchable digital formats. The cursive nature of Arabic script, with its positional letter shapes and diacritical marks, presents significant challenges that require specialized recognition systems. These challenges are compounded by the variability in handwriting styles and the limitations of techniques developed for other languages.
-In this study, we leverage the KHATT dataset to develop an end-to-end deep learning-based HTR system. Our approach effectively addresses the complexities of Arabic cursive handwriting using a segmentation-based model. This work demonstrates the potential of deep learning in advancing Arabic HTR, enabling the digitization of both contemporary and historical texts and supporting broader applications in cultural preservation and digital workflows.
+
+In this study, we leverage the KHATT dataset to develop an end-to-end deep learning-based HTR system. Our approach effectively addresses the complexities of Arabic cursive handwriting using a segmentation-based model. To further enhance recognition accuracy, we incorporated KenLM for post-processing. Our baseline system, without KenLM, achieved a mean Character Error Rate (CER) of 1.894 and a Word Error Rate (WER) of 2.543. By integrating KenLM with n-gram models ranging from 2-gram to 4-gram, we observed significant improvements, attaining a CER of 0.903 and a WER of 0.998. These results demonstrate the effectiveness of KenLM in refining HTR outputs. This work underscores the potential of deep learning in advancing Arabic HTR, enabling the digitization of both contemporary and historical texts, and supporting broader applications in cultural preservation and digital workflows.
+
 \end{abstract}
 
 % \vspace{-10pt}
@@ -532,7 +534,7 @@ In addition to the standard CNN-BiLSTM-CTC models, Mutawa et al. \cite{mutawa202
   HACDB \\
   IFN/ENIT
   \end{tabular} 
-  & Sliding Window + Kaldi & 
+  &  Sliding Window + Kaldi & 
   \begin{tabular}[c]{@{}l@{}}
   WER: 30.5\% \\
   WER: 11.5\%
