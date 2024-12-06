@@ -786,7 +786,7 @@ Mode & Min \\
 To supplement the training process, we utilized additional callback functions. We periodically saved the model every 25 epochs, outputted training and validation metrics for each epoch, and cleared the displayed outputs in the Jupyter Notebook every 10 epochs to improve the notebook's reaedability during model training.
 
 \subsection{Post-processing}
-After training the models, we improved the accuracy of the predicted text by integrating KenLM with Word Beam Search decoding. We trained KenLM on our dataset's corpus of text with three different n-gram orders: 2-gram (bigrams), 3-gram (tri-gram), and 4-gram. With these n-grams, we could conduct ablation studies to see the impact of higher-order n-grams in refining the decoded outputs of our OCR system based on our evaluation metrics.
+After training the models, we improved the accuracy of the predicted text by integrating KenLM with Word Beam Search decoding. We trained KenLM on our dataset's corpus of text with increasing n-gram orders: 2-gram (bigrams), 3-gram (tri-gram), and 4-gram. With these n-grams, we could conduct ablation studies to see the impact of higher-order n-grams in refining the decoded outputs of our OCR system based on our evaluation metrics.
 
 \subsection{Performance Evaluation}
 
