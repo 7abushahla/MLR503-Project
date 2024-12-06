@@ -622,7 +622,7 @@ Due to the nature of this task, especially with complex scripts such as Arabic, 
 \item \( N \) = Total number of words in the reference (ground truth)
 \end{itemize}
 
-\section{Experimental Results}
+\section{Results and Discussion}
 \subsection{Experimental Conditions}
 
 Model training was conducted on two NVIDIA A100 (SXM4) Tensor Core GPUs, each with 80 GB of memory. One was provided by the American University of Sharjah's (AUS) Computer Science and Engineering (CSE) Department from their Artificial Intelligence (AI) lab, while another was accessed remotely through RunPod's platform. This setup facilitated the parallel execution of two seeds to obtain two distinct models. Upon generating two distinct models, we computed the average and standard deviation of the evaluation metrics across both runs. This approach helped ensure the model’s stability and reliability when applied to real-world data.
@@ -633,9 +633,8 @@ A key challenge we encountered during experimentation involved the capability of
 
 To address this, each custom layer was implemented to fully support model serialization and deserialization. The \begin{small}\texttt{get\_config()}\end{small} method was used to store initialization parameters, ensuring the proper reconstruction of the CTC layer’s configurations. Furthermore, the \begin{small}\texttt{@tf.keras.utils.register\_keras\_serializable()}\end{small} decorator was employed to make the layer compatible with TensorFlow’s saving and loading mechanisms. The \texttt{call()} method defined the forward pass logic, ensuring consistency during both training and inference. By following these practices, the custom layer was seamlessly integrated into the TensorFlow workflow, enabling efficient experimentation and potential deployment across various setups.
 
-\section{Results and Discussion}
+\subsection{Main Results}
 
-\blindtext[2]
 
 \section{Conclusions and Future Work}
 
